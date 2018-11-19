@@ -11,4 +11,4 @@ start with "autopot" or "pot"
 - pot reload mp -> reload mp.json file
 - pot reload config -> reload config.json file
 
-***config.json, hp.json, mp.json will generate after enter the game
+***config.json, hp.json, mp.json will generate after enter the game***
