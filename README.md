@@ -11,17 +11,4 @@ start with "autopot" or "pot"
 - pot reload mp -> reload mp.json file
 - pot reload config -> reload config.json file
 
-# hp.json
-    item id: {
-        "name": item name,
-        "use_at": percent to use in normal,
-        "slay_at": percent to use in slaying,
-        "cd": cooldown for item
-    }
-Example:
-    "6552": {
-        "name": "Prime Recovery Potable",
-        "use_at": 80,
-        "slay_at": 30,
-        "cd": 10
-    }
+***config.json, hp.json, mp.json will generate after enter the game
