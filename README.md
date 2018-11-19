@@ -12,5 +12,5 @@ start with "autopot" or "pot"
 - pot reload config -> reload config.json file
 
 ***HP Pot used only in combat***</br>
-***MP Pot always used***</br>
+***MP Pot always used ignore combat***</br>
 ***config.json, hp.json, mp.json will generate after enter the game***</br>
