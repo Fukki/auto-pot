@@ -18,3 +18,10 @@ start with "autopot" or "pot"
         "slay_at": percent to use in slaying,
         "cd": cooldown for item
     }
+Example:
+    "6552": {
+        "name": "Prime Recovery Potable",
+        "use_at": 80,
+        "slay_at": 30,
+        "cd": 10
+    }
