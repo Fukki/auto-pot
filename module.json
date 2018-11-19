@@ -1,0 +1,5 @@
+{
+	"disableAutoUpdate": false,
+	"servers": ["https://raw.githubusercontent.com/Fukki/Autopot/master/"],
+	"supportUrl": "https://github.com/Fukki/Autopot/issues/"
+}
