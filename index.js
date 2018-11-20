@@ -1,4 +1,4 @@
-const path = require("path"); const fs = require("fs");
+const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command;
 	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
@@ -10,38 +10,38 @@ module.exports = function AutoPOT(mod) {
 		if(arg1 && arg1.length > 0) arg1 = arg1.toLowerCase();
 		if(arg2 && arg2.length > 0) arg2 = arg2.toLowerCase();
 		switch (arg1) {
-			case "id":
-			case "getid":
-			case "itemid":
+			case 'id':
+			case 'getid':
+			case 'itemid':
 				let id = arg2.match(/#(\d*)@/);
 				id = id ? Number(id[1]) : 0;
 				msg(`itemId: ${id}.`);
 				break;
-			case "load":
-			case "reload":
+			case 'load':
+			case 'reload':
 				switch(arg2) {
 					case 'hp': hpPot = getHP(); msg(`HP.json has been reloaded.`); break;
 					case 'mp': mpPot = getMP(); msg(`MP.json has been reloaded.`); break;
 					case 'config': config = getConfig(); msg(`Config.json has been reloaded.`); break;
 				}
 				break;
-			case "notice":
+			case 'notice':
 				config.notice = !config.notice;
 				msg(`Notice has ${config.notice ? 'Enable' : 'Disable'}.`);
 				break;
-			case "slay":
-			case "slaying":
+			case 'slay':
+			case 'slaying':
 				isSlaying = !isSlaying;
 				if (!config.hp) config.hp = true;
 				msg(`Slaying mode has ${isSlaying ? 'Enable' : 'Disable'}.`);
 				break;
-			case "hp":
+			case 'hp':
 				config.hp = !config.hp;
 				if (isSlaying) isSlaying = false;
 				msg(`HP pot has ${config.hp ? 'Enable' : 'Disable'}.`);
 				break;
-			case "mp":
-			case "mana":
+			case 'mp':
+			case 'mana':
 				config.mp = !config.mp;
 				msg(`MP pot has ${config.mp ? 'Enable' : 'Disable'}.`);
 				break;
@@ -67,15 +67,15 @@ module.exports = function AutoPOT(mod) {
 	
 	mod.hook('C_BIND_ITEM_EXECUTE', 'raw', () => {isCon = false;});
 	
-	mod.hook("S_LOGIN", 10, e => {({gameId} = e);});
+	mod.hook('S_LOGIN', 10, e => {({gameId} = e);});
 	
-	mod.hook("S_SPAWN_ME", 3, e => {isAlive = e.alive;});
+	mod.hook('S_SPAWN_ME', 3, e => {isAlive = e.alive;});
 
-	mod.hook("S_CREATURE_LIFE", 2, e => {if (isMe(e.gameId)) {isAlive = e.alive;}});
+	mod.hook('S_CREATURE_LIFE', 2, e => {if (isMe(e.gameId)) {isAlive = e.alive;}});
 	
-	mod.hook("S_MOUNT_VEHICLE_EX", 1, e => {if (e.target.equals(gameId)) VehicleEx = e.vehicle;});
+	mod.hook('S_MOUNT_VEHICLE_EX', 1, e => {if (e.target.equals(gameId)) VehicleEx = e.vehicle;});
 
-	mod.hook("S_UNMOUNT_VEHICLE_EX", 1, e => {if (e.target.equals(gameId)) VehicleEx = null;});
+	mod.hook('S_UNMOUNT_VEHICLE_EX', 1, e => {if (e.target.equals(gameId)) VehicleEx = null;});
 	
 	mod.hook('S_USER_STATUS', 1, e => {if (e.target.equals(gameId)) isCombat = (e.status === 1);});
 	
