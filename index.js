@@ -1,7 +1,7 @@
 const path = require("path"); const fs = require("fs");
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command;
-	let config = getConfige, hpPot = getHPe, mpPot = getMPe;
+	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
 	let gameId = null, VehicleEx = null, getInv = false;
 	let isAlive = false, isCombat = false, isBG = false, isSlaying = false;
 	let zoneBG = 0, nowHP = 0, nowMP = 0, isCon = false, isMount = false;
@@ -20,9 +20,9 @@ module.exports = function AutoPOT(mod) {
 			case "load":
 			case "reload":
 				switch(arg2) {
-					case 'hp': hpPot = getHPe; msg(`HP.json has been reloademod.`); break;
-					case 'mp': mpPot = getMPe; msg(`MP.json has been reloademod.`); break;
-					case 'config': config = getConfige; msg(`Config.json has been reloademod.`); break;
+					case 'hp': hpPot = getHP(); msg(`HP.json has been reloademod.`); break;
+					case 'mp': mpPot = getMP(); msg(`MP.json has been reloademod.`); break;
+					case 'config': config = getConfig(); msg(`Config.json has been reloademod.`); break;
 				}
 				break;
 			case "notice":
@@ -134,7 +134,7 @@ module.exports = function AutoPOT(mod) {
 		});
 	}
 	
-	function getConfige {
+	function getConfig() {
 		let data = {};
 		try {
 			data = require('./config.json');
@@ -150,7 +150,7 @@ module.exports = function AutoPOT(mod) {
 		return data;
 	}
 	
-	function getHPe {
+	function getHP() {
 		let data = {};
 		try {
 			data = require('./hp.json');
@@ -166,7 +166,7 @@ module.exports = function AutoPOT(mod) {
 		return jsonSort(data, 'use_at');
 	}
 	
-	function getMPe {
+	function getMP() {
 		let data = {};
 		try {
 			data = require('./mp.json');
