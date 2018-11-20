@@ -7,8 +7,8 @@ module.exports = function AutoPOT(mod) {
 	let zoneBG = 0, nowHP = 0, nowMP = 0, isCon = false, isMount = false;
 
 	cmd.add(['autopot', 'pot'], (arg1, arg2) => {
-		if(arg1 && arg1.length > 0) arg1 = arg1.toLowerCasee;
-		if(arg2 && arg2.length > 0) arg2 = arg2.toLowerCasee;
+		if(arg1 && arg1.length > 0) arg1 = arg1.toLowerCase();
+		if(arg2 && arg2.length > 0) arg2 = arg2.toLowerCase();
 		switch (arg1) {
 			case "id":
 			case "getid":
@@ -55,17 +55,17 @@ module.exports = function AutoPOT(mod) {
 	
 	mod.hook('S_UNMOUNT_VEHICLE', 2, e => {if (isMe(e.gameId)) {isMount = false; isCon = false;}});
 	
-	mod.hook('S_REQUEST_CONTRACT', 1, e => {isCon = true;});
+	mod.hook('S_REQUEST_CONTRACT', 'raw', () => {isCon = true;});
 	
-	mod.hook('S_ACCEPT_CONTRACT', 1, e => {isCon = false;});
+	mod.hook('S_ACCEPT_CONTRACT', 'raw', () => {isCon = false;});
 	
-	mod.hook('S_REJECT_CONTRACT', 1, e => {isCon = false;});
+	mod.hook('S_REJECT_CONTRACT', 'raw', () => {isCon = false;});
 	
-	mod.hook('S_CANCEL_CONTRACT', 1, e => {isCon = false;});
+	mod.hook('S_CANCEL_CONTRACT', 'raw', () => {isCon = false;});
 	
-	mod.hook('S_GACHA_END', 1, e => {isCon = false;});
+	mod.hook('S_GACHA_END', 'raw', () => {isCon = false;});
 	
-	mod.hook('C_BIND_ITEM_EXECUTE', 1, e => {isCon = false;});
+	mod.hook('C_BIND_ITEM_EXECUTE', 'raw', () => {isCon = false;});
 	
 	mod.hook("S_LOGIN", 10, e => {({gameId} = e);});
 	
@@ -103,7 +103,7 @@ module.exports = function AutoPOT(mod) {
 				nowHP = Math.round(e.curHp / e.maxHp * 100);
 				for (let hp = 0; hp < hpPot.length; hp++) {
 					if (!hpPot[hp][1].inCd && ((!isSlaying && nowHP <= hpPot[hp][1].use_at) || (isSlaying && nowHP <= hpPot[hp][1].slaying)) && hpPot[hp][1].amount > 0 && isCombat && isAlive && !isBG && !isCon && !isMount) {
-						useItem(hpPot[hp]); hpPot[hp][1].inCd = true; hpPot[hp][1].amount--; setTimeout(function e {hpPot[hp][1].inCd = false;}, hpPot[hp][1].cd * 1000);
+						useItem(hpPot[hp]); hpPot[hp][1].inCd = true; hpPot[hp][1].amount--; setTimeout(function () {hpPot[hp][1].inCd = false;}, hpPot[hp][1].cd * 1000);
 						if (config.notice) msg(`Used ${hpPot[hp][1].name}, still have ${(hpPot[hp][1].amount)} left.`);
 					}
 				}
@@ -117,7 +117,7 @@ module.exports = function AutoPOT(mod) {
 				nowMP = Math.round(e.currentMp / e.maxMp * 100);
 				for (let mp = 0; mp < mpPot.length; mp++) {
 					if (!mpPot[mp][1].inCd && nowMP <= mpPot[mp][1].use_at && mpPot[mp][1].amount > 0 && isAlive && !isBG && !isCon && !isMount) {
-						useItem(mpPot[mp]); mpPot[mp][1].inCd = true; mpPot[mp][1].amount--; setTimeout(function e {mpPot[mp][1].inCd = false;}, mpPot[mp][1].cd * 1000);
+						useItem(mpPot[mp]); mpPot[mp][1].inCd = true; mpPot[mp][1].amount--; setTimeout(function () {mpPot[mp][1].inCd = false;}, mpPot[mp][1].cd * 1000);
 						if (config.notice) msg(`Used ${mpPot[mp][1].name}, still have ${(mpPot[mp][1].amount)} left.`);
 					}
 				}

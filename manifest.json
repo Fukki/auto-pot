@@ -1,24 +1,24 @@
 {
 	"files": {
-		"index.js": "cee83f4aff35bedc4a68c018a3f70c0b62564323153252f257af0046b6dfe856"
+		"index.js": "601dc88d0e95352c03c146364fca35e9b092ed400a9724a44c1787be8fe59ef9"
 	},
 	"defs": {
-		"C_BIND_ITEM_EXECUTE": 1,
+		"C_BIND_ITEM_EXECUTE": [1,"raw"],
 		"C_USE_ITEM": 3,
-		"S_ACCEPT_CONTRACT": 1,
+		"S_ACCEPT_CONTRACT": [1,"raw"],
 		"S_BATTLE_FIELD_ENTRANCE_INFO": 1,
-		"S_CANCEL_CONTRACT": 1,
+		"S_CANCEL_CONTRACT": [1,"raw"],
 		"S_CREATURE_CHANGE_HP": 6,
 		"S_CREATURE_LIFE": 2,
-		"S_GACHA_END": 1,
+		"S_GACHA_END": [1,"raw"],
 		"S_INVEN": 16,
 		"S_LOAD_TOPO": 3,
 		"S_LOGIN": 10,
 		"S_MOUNT_VEHICLE": 2,
 		"S_MOUNT_VEHICLE_EX": 1,
 		"S_PLAYER_CHANGE_MP": 1,
-		"S_REJECT_CONTRACT": 1,
-		"S_REQUEST_CONTRACT": 1,
+		"S_REJECT_CONTRACT": [1,"raw"],
+		"S_REQUEST_CONTRACT": [1,"raw"],
 		"S_SPAWN_ME": 3,
 		"S_UNMOUNT_VEHICLE": 2,
 		"S_UNMOUNT_VEHICLE_EX": 1,
