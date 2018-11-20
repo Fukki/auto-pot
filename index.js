@@ -13,9 +13,9 @@ module.exports = function AutoPOT(mod) {
 			case 'id':
 			case 'getid':
 			case 'itemid':
-				let id = arg2.match(/#(\d*)@/);
-				id = id ? Number(id[1]) : 0;
-				msg(`itemId: ${id}.`);
+				let getId = arg2.match(/#(\d*)@/);
+				getId = getId ? Number(getId[1]) : 0;
+				msg(`itemId: ${getId}.`);
 				break;
 			case 'load':
 			case 'reload':
