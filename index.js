@@ -55,17 +55,17 @@ module.exports = function AutoPOT(mod) {
 	
 	mod.hook('S_UNMOUNT_VEHICLE', 2, e => {if (isMe(e.gameId)) {isMount = false; isCon = false;}});
 	
-	mod.hook('S_REQUEST_CONTRACT', 1, e => {isCon = true;});
+	mod.hook('S_REQUEST_CONTRACT', 'raw', () => {isCon = true;});
 	
-	mod.hook('S_ACCEPT_CONTRACT', 1, e => {isCon = false;});
+	mod.hook('S_ACCEPT_CONTRACT', 'raw', () => {isCon = false;});
 	
-	mod.hook('S_REJECT_CONTRACT', 1, e => {isCon = false;});
+	mod.hook('S_REJECT_CONTRACT', 'raw', () => {isCon = false;});
 	
-	mod.hook('S_CANCEL_CONTRACT', 1, e => {isCon = false;});
+	mod.hook('S_CANCEL_CONTRACT', 'raw', () => {isCon = false;});
 	
-	mod.hook('S_GACHA_END', 1, e => {isCon = false;});
+	mod.hook('S_GACHA_END', 'raw', () => {isCon = false;});
 	
-	mod.hook('C_BIND_ITEM_EXECUTE', 1, e => {isCon = false;});
+	mod.hook('C_BIND_ITEM_EXECUTE', 'raw', () => {isCon = false;});
 	
 	mod.hook("S_LOGIN", 10, e => {({gameId} = e);});
 	
