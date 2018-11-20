@@ -14,5 +14,5 @@ start with "autopot" or "pot"
 
 ***HP Pot used only in combat***</br>
 ***MP Pot always used ignore combat***</br>
-***All pot not use when in contract or on mount and battleground***</br>
+***All pot not use when contract, mount, battleground***</br>
 ***config.json, hp.json, mp.json will generate after enter the game***</br>
