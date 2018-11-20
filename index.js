@@ -20,9 +20,9 @@ module.exports = function AutoPOT(mod) {
 			case "load":
 			case "reload":
 				switch(arg2) {
-					case 'hp': hpPot = getHP(); msg(`HP.json has been reloademod.`); break;
-					case 'mp': mpPot = getMP(); msg(`MP.json has been reloademod.`); break;
-					case 'config': config = getConfig(); msg(`Config.json has been reloademod.`); break;
+					case 'hp': hpPot = getHP(); msg(`HP.json has been reloaded.`); break;
+					case 'mp': mpPot = getMP(); msg(`MP.json has been reloaded.`); break;
+					case 'config': config = getConfig(); msg(`Config.json has been reloaded.`); break;
 				}
 				break;
 			case "notice":
@@ -55,17 +55,17 @@ module.exports = function AutoPOT(mod) {
 	
 	mod.hook('S_UNMOUNT_VEHICLE', 2, e => {if (isMe(e.gameId)) {isMount = false; isCon = false;}});
 	
-	mod.hook('S_REQUEST_CONTRACT', 'raw', () => {isCon = true;});
+	mod.hook('S_REQUEST_CONTRACT', 1, e => {isCon = true;});
 	
-	mod.hook('S_ACCEPT_CONTRACT', 'raw', () => {isCon = false;});
+	mod.hook('S_ACCEPT_CONTRACT', 1, e => {isCon = false;});
 	
-	mod.hook('S_REJECT_CONTRACT', 'raw', () => {isCon = false;});
+	mod.hook('S_REJECT_CONTRACT', 1, e => {isCon = false;});
 	
-	mod.hook('S_CANCEL_CONTRACT', 'raw', () => {isCon = false;});
+	mod.hook('S_CANCEL_CONTRACT', 1, e => {isCon = false;});
 	
-	mod.hook('S_GACHA_END', 'raw', () => {isCon = false;});
+	mod.hook('S_GACHA_END', 1, e => {isCon = false;});
 	
-	mod.hook('C_BIND_ITEM_EXECUTE', 'raw', () => {isCon = false;});
+	mod.hook('C_BIND_ITEM_EXECUTE', 1, e => {isCon = false;});
 	
 	mod.hook("S_LOGIN", 10, e => {({gameId} = e);});
 	
