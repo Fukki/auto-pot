@@ -99,7 +99,6 @@ module.exports = function AutoPOT(mod) {
 	
     mod.hook('S_PLAYER_STAT_UPDATE', 10, e => {
 		if (config.enabled && config.hp) {
-			//nowHP = Math.round(e.hp / e.maxHp * 100));
 			nowHP = Math.round(parseInt(e.hp) / parseInt(e.maxHp) * 100);
 			for (let hp = 0; hp < hpPot.length; hp++) {
 				if (!hpPot[hp][1].inCd && ((!isSlaying && nowHP <= hpPot[hp][1].use_at) || (isSlaying && nowHP <= hpPot[hp][1].slaying)) && hpPot[hp][1].amount > 0 && isCombat && isAlive && !isBG) {
@@ -109,7 +108,6 @@ module.exports = function AutoPOT(mod) {
 			}
 		}
 		if (config.enabled && config.mp) {
-			//nowMP = Math.round(e.mp / e.maxMp * 100));
 			nowMP = Math.round(parseInt(e.mp) / parseInt(e.maxMp) * 100);
 			for (let mp = 0; mp < mpPot.length; mp++) {
 				if (!mpPot[mp][1].inCd && nowMP <= mpPot[mp][1].use_at && mpPot[mp][1].amount > 0 && isAlive && !isBG && !isCon && !isMount) {
