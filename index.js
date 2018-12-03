@@ -32,13 +32,13 @@ module.exports = function AutoPOT(mod) {
 			case 'slay':
 			case 'slaying':
 				isSlaying = !isSlaying;
+				msg(`Slaying mode has ${isSlaying ? 'Enable' : 'Disable'}. ${config.hp ? '' : 'HP pot has Enable.'}`);
 				if (!config.hp) config.hp = true;
-				msg(`Slaying mode has ${isSlaying ? 'Enable' : 'Disable'}.`);
 				break;
 			case 'hp':
 				config.hp = !config.hp;
+				msg(`HP pot has ${config.hp ? 'Enable' : 'Disable'}. ${isSlaying ? 'Slaying mode has Disable.' : ''}`);
 				if (isSlaying) isSlaying = false;
-				msg(`HP pot has ${config.hp ? 'Enable' : 'Disable'}.`);
 				break;
 			case 'mp':
 			case 'mana':
