@@ -77,7 +77,7 @@ module.exports = function AutoPOT(mod) {
 
 	mod.hook('S_UNMOUNT_VEHICLE_EX', 1, e => {if (e.target.equals(gameId)) VehicleEx = null;});
 	
-	mod.hook('S_USER_STATUS', 1, e => {if (e.target.equals(gameId)) isCombat = (e.status === 1);});
+	mod.hook('S_USER_STATUS', 3, e => {if (e.target.equals(gameId)) isCombat = (e.status === 1);});
 	
 	mod.hook('S_BATTLE_FIELD_ENTRANCE_INFO', 1, e => {zoneBG = e.zone;});
 	

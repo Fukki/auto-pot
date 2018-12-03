@@ -1,6 +1,6 @@
 {
 	"files": {
-		"index.js": "ebc996868c3daace41e6aaf033741be107c0da96d5b40d155d1c0fdfabbbd1a2"
+		"index.js": "767c774218a06502675c4560b159c5e4a744b4d2398a5588836ce35411220166"
 	},
 	"defs": {
 		"C_BIND_ITEM_EXECUTE": "raw",
@@ -21,6 +21,6 @@
 		"S_SPAWN_ME": 3,
 		"S_UNMOUNT_VEHICLE": 2,
 		"S_UNMOUNT_VEHICLE_EX": 1,
-		"S_USER_STATUS": 1
+		"S_USER_STATUS": 3
 	}
 }
