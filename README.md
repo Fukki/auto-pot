@@ -26,15 +26,15 @@ start with "autopot" or "pot"
 ```
 # HP.json
 ```
-{</br>
+{
     "6552": { #Your pot ID</br>
         "name": "Prime Recovery Potable",   #Your pot name for item notice if enable
         "inCombat": false,                  #if true = only use in combat, false = always use ignore combat
         "use_at": 80,                       #set use at with percent
         "slay_at": 30,                      #set use in slaying mode with percent
         "cd": 10                            #set pot cooldown x sec
-    }</br>
-}</br>
+    }
+}
 ```
 # MP.json
 ```
