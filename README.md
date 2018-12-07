@@ -25,6 +25,16 @@ start with "autopot" or "pot"
     "notice": false   #if set true = notice your pot left, false = not notice</br>
 }</br>
 
+# HP.json
+{
+    "6552": {
+        "name": "Prime Recovery Potable",
+        "use_at": 80,
+        "slay_at": 30,
+        "cd": 10
+    }
+}
+
 # Noted Commit 30
 - added "inCombat" option into hp.json and mp.json make your way setting only used in combat or not</br>
 - for old user and lazy to add it with your self just removed hp.json and mp.json then re-login for new generate</br>
