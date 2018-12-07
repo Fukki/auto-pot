@@ -20,8 +20,8 @@ start with "autopot" or "pot"
 # Config.json
 {</br>
     "enabled": true,  #enable and disable this module</br>
-    "hp": false,      #if set true = always use HP pot, false = need in game command for enable</br>
-    "mp": true,       #if set true = always use MP pot, false = need in game command for enable</br>
+    "hp": false,      #if set true = enable auto HP pot, false = need in game command for enable</br>
+    "mp": true,       #if set true = enable auto MP pot, false = need in game command for enable</br>
     "notice": false   #if set true = notice your pot left, false = not notice</br>
 }</br>
 
