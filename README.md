@@ -28,24 +28,24 @@ start with "autopot" or "pot"
 ```
 {</br>
     "6552": { #Your pot ID</br>
-        "name": "Prime Recovery Potable", #Your pot name for item notice if enable
-        "inCombat": false, #if true = only use in combat, false = always use ignore combat
-        "use_at": 80, #set use at with percent
-        "slay_at": 30, #set use in slaying mode with percent
-        "cd": 10 #set pot cooldown x sec
+        "name": "Prime Recovery Potable",   #Your pot name for item notice if enable
+        "inCombat": false,                  #if true = only use in combat, false = always use ignore combat
+        "use_at": 80,                       #set use at with percent
+        "slay_at": 30,                      #set use in slaying mode with percent
+        "cd": 10                            #set pot cooldown x sec
     }</br>
 }</br>
 ```
 # MP.json
 ```
-{</br>
-    "6562": { #Your pot ID
-        "name": "Prime Replenishment Potable", #Your pot name for item notice if enable
-        "inCombat": false, #if true = only use in combat, false = always use ignore combat
-        "use_at": 50, #set use at with percent
-        "cd": 10 #set pot cooldown x sec
-    }</br>
-}</br>
+{
+    "6562": {                                   #Your pot ID
+        "name": "Prime Replenishment Potable",  #Your pot name for item notice if enable
+        "inCombat": false,                      #if true = only use in combat, false = always use ignore combat
+        "use_at": 50,                           #set use at with percent
+        "cd": 10                                #set pot cooldown x sec
+    }
+}
 ```
 # Noted Commit 30
 - added "inCombat" option into hp.json and mp.json make your way setting only used in combat or not</br>
