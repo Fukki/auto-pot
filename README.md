@@ -12,21 +12,19 @@ start with "autopot" or "pot"
 - pot reload mp -> reload mp.json file
 - pot reload config -> reload config.json file
 
-***HP Pot used only in combat***</br>
-***MP Pot always used ignore combat***</br>
-***All pot not use when contract, mount, battleground***</br>
+***Pot will not use when contract, mount, battleground***</br>
 ***config.json, hp.json, mp.json will generate after enter the game***</br>
 
 # Config.json
-{</br>
+```{
     "enabled": true,  #enable and disable this module</br>
-    "hp": false,      #if set true = enable auto HP pot, false = need in game command for enable</br>
-    "mp": true,       #if set true = enable auto MP pot, false = need in game command for enable</br>
-    "notice": false   #if set true = notice your pot left, false = not notice</br>
-}</br>
+    "hp": false,      #if set true = enable auto HP pot, false = need in game command for enable
+    "mp": true,       #if set true = enable auto MP pot, false = need in game command for enable
+    "notice": false   #if set true = notice your pot left, false = not notice
+}```
 
 # HP.json
-{</br>
+```{</br>
     "6552": { #Your pot ID</br>
         "name": "Prime Recovery Potable", #Your pot name for item notice if enable</br>
         "inCombat": false, #if true = only use in combat, false = always use ignore combat</br>
@@ -37,14 +35,14 @@ start with "autopot" or "pot"
 }</br>
 
 # MP.json
-{</br>
+```{</br>
     "6562": { #Your pot ID</br>
         "name": "Prime Replenishment Potable", #Your pot name for item notice if enable</br>
         "inCombat": false, #if true = only use in combat, false = always use ignore combat
         "use_at": 50, #set use at with percent</br>
         "cd": 10 #set pot cooldown x sec</br>
     }</br>
-}</br>
+}</br>```
 
 # Noted Commit 30
 - added "inCombat" option into hp.json and mp.json make your way setting only used in combat or not</br>
