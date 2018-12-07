@@ -16,14 +16,17 @@ start with "autopot" or "pot"
 ***config.json, hp.json, mp.json will generate after enter the game***</br>
 
 # Config.json
+```
 {</br>
     "enabled": true,  #enable and disable this module</br>
     "hp": false,      #if set true = enable auto HP pot, false = need in game command for enable</br>
     "mp": true,       #if set true = enable auto MP pot, false = need in game command for enable</br>
     "notice": false   #if set true = notice your pot left, false = not notice</br>
 }</br>
+```
 
 # HP.json
+```
 {</br>
     "6552": { #Your pot ID</br>
         "name": "Prime Recovery Potable", #Your pot name for item notice if enable</br>
@@ -33,8 +36,10 @@ start with "autopot" or "pot"
         "cd": 10 #set pot cooldown x sec</br>
     }</br>
 }</br>
+```
 
 # MP.json
+```
 {</br>
     "6562": { #Your pot ID</br>
         "name": "Prime Replenishment Potable", #Your pot name for item notice if enable</br>
@@ -43,6 +48,7 @@ start with "autopot" or "pot"
         "cd": 10 #set pot cooldown x sec</br>
     }</br>
 }</br>
+```
 
 # Noted Commit 30
 - added "inCombat" option into hp.json and mp.json make your way setting only used in combat or not</br>
