@@ -17,7 +17,7 @@ start with "autopot" or "pot"
 ***All pot not use when contract, mount, battleground***</br>
 ***config.json, hp.json, mp.json will generate after enter the game***</br>
 
-#Config.json
+# Config.json
 {</br>
     "enabled": true,  #enable and disable this module</br>
     "hp": false,      #if set true = always use HP pot, false = need in game command for enable</br>
@@ -25,6 +25,6 @@ start with "autopot" or "pot"
     "notice": false   #if set true = notice your pot left, false = not notice</br>
 }</br>
 
-#Noted Commit 30
+# Noted Commit 30
 - added "inCombat" option into hp.json and mp.json make your way setting only used in combat or not</br>
 - for old user and lazy to add it with your self just removed hp.json and mp.json then re-login for new generate</br>
