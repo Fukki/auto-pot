@@ -102,7 +102,7 @@ module.exports = function AutoPOT(mod) {
 			nowHP = Math.round(parseInt(e.hp) / parseInt(e.maxHp) * 100);
 			for (let hp = 0; hp < hpPot.length; hp++) {
 				useCombat = hpPot[hp][1].inCombat ? isCombat : true;
-				if (!hpPot[hp][1].inCd && ((!isSlaying && nowHP <= hpPot[hp][1].use_at) || (isSlaying && nowHP <= hpPot[hp][1].slay_at)) && hpPot[hp][1].amount > 0 && isAlive && useCombat && !isBG && !isCon && !isMount) {
+				if (!hpPot[hp][1].inCd && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && useCombat) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && isCombat)) && hpPot[hp][1].amount > 0 && isAlive && !isBG && !isCon && !isMount) {
 					useItem(hpPot[hp]); hpPot[hp][1].inCd = true; hpPot[hp][1].amount--; setTimeout(function () {hpPot[hp][1].inCd = false;}, hpPot[hp][1].cd * 1000);
 					if (config.notice) msg(`Used ${hpPot[hp][1].name}, still have ${(hpPot[hp][1].amount)} left.`);
 				}

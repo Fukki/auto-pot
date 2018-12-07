@@ -12,6 +12,7 @@ start with "autopot" or "pot"
 - pot reload mp -> reload mp.json file
 - pot reload config -> reload config.json file
 
+***HP Pot slaying mode only use in combat***</br>
 ***Pot will not use when contract, mount, battleground***</br>
 ***config.json, hp.json, mp.json will generate after enter the game***</br>
 
@@ -48,5 +49,5 @@ start with "autopot" or "pot"
 }
 ```
 # Noted Commit 30
-- added "inCombat" option into hp.json and mp.json make your way setting only used in combat or not</br>
-- for old user and lazy to add it with your self just removed hp.json and mp.json then re-login for new generate</br>
+- added "inCombat" option into hp.json and mp.json for setting only use in combat or not</br>
+- for old user and who is lazy to add it by your self just remove hp.json and mp.json then re-login for new generate</br>
