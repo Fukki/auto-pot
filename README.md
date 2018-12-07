@@ -27,7 +27,7 @@ start with "autopot" or "pot"
 # HP.json
 ```
 {
-    "6552": { #Your pot ID</br>
+    "6552": {                               #Your pot ID
         "name": "Prime Recovery Potable",   #Your pot name for item notice if enable
         "inCombat": false,                  #if true = only use in combat, false = always use ignore combat
         "use_at": 80,                       #set use at with percent
