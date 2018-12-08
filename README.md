@@ -31,8 +31,8 @@ start with "autopot" or "pot"
     "6552": {                               #Your pot ID
         "name": "Prime Recovery Potable",   #Your pot name for item notice if enable
         "inCombat": true,                   #if true = only use in combat, false = always use ignore combat
-        "use_at": 80,                       #set use at with percent
-        "slay_at": 30,                      #set use in slaying mode with percent
+        "use_at": 80,                       #set use at with x percent
+        "slay_at": 30,                      #set use in slaying mode with x percent
         "cd": 10                            #set pot cooldown x sec
     }
 }
@@ -43,7 +43,7 @@ start with "autopot" or "pot"
     "6562": {                                   #Your pot ID
         "name": "Prime Replenishment Potable",  #Your pot name for item notice if enable
         "inCombat": false,                      #if true = only use in combat, false = always use ignore combat
-        "use_at": 50,                           #set use at with percent
+        "use_at": 50,                           #set use at with x percent
         "cd": 10                                #set pot cooldown x sec
     }
 }
@@ -58,3 +58,6 @@ A: check your syntax before save because *.json will replace if system cant read
 
 Q: after reload *.json with in game command auto-pot not work.</br>
 A: update your inventory by open it one time or use item one time.</br>
+
+A: got the error.</br>
+Q: check your proxy and this module has up to date or not</br>
