@@ -53,8 +53,8 @@ start with "autopot" or "pot"
 - for old user and who is lazy to add it by your self just remove hp.json and mp.json then re-login for new generate</br>
 
 # Q&A
-Q: why my *.json got replace after edited.
-A: check your syntax before saved because *.json will replace if system cant read.
+Q: why my *.json got replace after edited.</br>
+A: check your syntax before saved because *.json will replace if system cant read.</br>
 
-Q: after reloaded *.json it not use pot
-A: update your inventory by open it one time or use item one time
+Q: after reloaded *.json it not use pot</br>
+A: update your inventory by open it one time or use item one time</br>
