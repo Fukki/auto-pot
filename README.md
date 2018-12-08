@@ -56,5 +56,5 @@ start with "autopot" or "pot"
 Q: why my *.json got replace after edit.</br>
 A: check your syntax before save because *.json will replace if system cant read.</br>
 
-Q: after reload *.json auto-pot not work.</br>
+Q: after reload *.json with in game command auto-pot not work.</br>
 A: update your inventory by open it one time or use item one time.</br>
