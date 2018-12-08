@@ -1,8 +1,12 @@
 {
 	"disableAutoUpdate": false,
-    "options": {
-        "niceName": "AutoPOT"
-    },
+	"name": "AutoPOT",
+	"author": "Fukki",
+	"description": "auto use HP potion in normal or slaying and auto use Mana potion.",
+	"version": "Kappa :v",
+	"options": {
+		"niceName": "AutoPOT"
+	},
 	"servers": ["https://raw.githubusercontent.com/Fukki/auto-pot/master/"],
 	"supportUrl": "https://github.com/Fukki/auto-pot/issues/"
 }
