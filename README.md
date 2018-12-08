@@ -60,4 +60,6 @@ Q: after reload *.json with in game command auto-pot not work.</br>
 A: update your inventory by open it one time or use item one time.</br>
 
 A: got the error.</br>
-Q: check your proxy and this module has up to date or not</br>
+Q: check your proxy and this module has up to date or not.</br>
+
+***Any problem pls open Issues**
