@@ -53,7 +53,7 @@ start with "autopot" or "pot"
 - for old user and who is lazy to add it by your self just remove hp.json and mp.json then re-login for new generate</br>
 
 # Q&A
-Q: why my *.json got replace after edit.</br>
+Q: my *.json got replace after edit.</br>
 A: check your syntax before save because *.json will replace if system cant read.</br>
 
 Q: after reload *.json with in game command auto-pot not work.</br>
