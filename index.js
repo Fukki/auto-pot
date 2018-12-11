@@ -2,8 +2,7 @@ const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command;
 	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
-	let gameId = null, VehicleEx = null, getInv = false, useCombat = false;
-	let isSlaying = false, nowHP = 0, nowMP = 0;
+	let getInv = false, useCombat = false, isSlaying = false, nowHP = 0, nowMP = 0;
 
 	cmd.add(['autopot', 'pot'], (arg1, arg2) => {
 		if(arg1 && arg1.length > 0) arg1 = arg1.toLowerCase();
@@ -89,7 +88,7 @@ module.exports = function AutoPOT(mod) {
 
 	function useItem(itemId) {
 		mod.send('C_USE_ITEM', 3, {
-			gameId: gameId,
+			gameId: mod.game.me.gameId,
 			id: Number(itemId[0]),
 			amount: 1,
 			unk4: true
@@ -152,8 +151,6 @@ module.exports = function AutoPOT(mod) {
 	}
 	
 	function msg(msg) {cmd.message(msg);}
-	
-	function isMe(id) {return gameId.equals(id) || VehicleEx && VehicleEx.equals(id);}
 	
 	function jsonSave(name,data) {fs.writeFile(path.join(__dirname, name), JSON.stringify(data, null, 4), err => {});}
 }
