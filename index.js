@@ -3,8 +3,8 @@ module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command;
 	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
 	let gameId = null, VehicleEx = null, getInv = false, useCombat = false;
-	let isAlive = false, isCombat = false, isBG = false, isSlaying = false;
-	let zoneBG = 0, nowHP = 0, nowMP = 0, isCon = false, isMount = false;
+	let mod.game.me.alive = false, mod.game.me.inCombat = false, isSlaying = false;
+	let zoneBG = 0, nowHP = 0, nowMP = 0;
 
 	cmd.add(['autopot', 'pot'], (arg1, arg2) => {
 		if(arg1 && arg1.length > 0) arg1 = arg1.toLowerCase();
@@ -51,46 +51,14 @@ module.exports = function AutoPOT(mod) {
 		}
 	});
 	
-	mod.hook('S_MOUNT_VEHICLE', 2, e => {if (isMe(e.gameId)) isMount = true;});
-	
-	mod.hook('S_UNMOUNT_VEHICLE', 2, e => {if (isMe(e.gameId)) {isMount = false; isCon = false;}});
-	
-	mod.hook('S_REQUEST_CONTRACT', 'raw', () => {isCon = true;});
-	
-	mod.hook('S_ACCEPT_CONTRACT', 'raw', () => {isCon = false;});
-	
-	mod.hook('S_REJECT_CONTRACT', 'raw', () => {isCon = false;});
-	
-	mod.hook('S_CANCEL_CONTRACT', 'raw', () => {isCon = false;});
-	
-	mod.hook('S_GACHA_END', 'raw', () => {isCon = false;});
-	
-	mod.hook('C_BIND_ITEM_EXECUTE', 'raw', () => {isCon = false;});
-	
-	mod.hook('S_LOGIN', 10, e => {({gameId} = e);});
-	
-	mod.hook('S_SPAWN_ME', 3, e => {isAlive = e.alive;});
-
-	mod.hook('S_CREATURE_LIFE', 2, e => {if (isMe(e.gameId)) {isAlive = e.alive;}});
-	
-	mod.hook('S_MOUNT_VEHICLE_EX', 1, e => {if (e.target.equals(gameId)) VehicleEx = e.vehicle;});
-
-	mod.hook('S_UNMOUNT_VEHICLE_EX', 1, e => {if (e.target.equals(gameId)) VehicleEx = null;});
-	
-	mod.hook('S_USER_STATUS', 3, e => {if (e.gameId === gameId) isCombat = (e.status === 1);});
-	
-	mod.hook('S_BATTLE_FIELD_ENTRANCE_INFO', 1, e => {zoneBG = e.zone;});
-	
-	mod.hook('S_LOAD_TOPO', 3, e => {isBG = (e.zone === zoneBG); VehicleEx = null; isCon = false; isMount = false;});
-	
 	mod.hook('S_INVEN', 16, e => {
 		if (config.enabled) {
 			let gHP = null, gMP = null;
-			for(i = 0; i < hpPot.length; i++) {
+			for(let i = 0; i < hpPot.length; i++) {
 				gHP = e.items.find(item => item.id === Number(hpPot[i][0]));
 				if (gHP) hpPot[i][1].amount = gHP.amount;
 			}
-			for (i = 0; i < mpPot.length; i++) {
+			for(let i = 0; i < mpPot.length; i++) {
 				gMP = e.items.find(item => item.id === Number(mpPot[i][0]));
 				if (gMP) mpPot[i][1].amount = gMP.amount;
 			}
@@ -101,8 +69,8 @@ module.exports = function AutoPOT(mod) {
 		if (config.enabled && config.hp) {
 			nowHP = Math.round(parseInt(e.hp) / parseInt(e.maxHp) * 100);
 			for (let hp = 0; hp < hpPot.length; hp++) {
-				useCombat = hpPot[hp][1].inCombat ? isCombat : true;
-				if (!hpPot[hp][1].inCd && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && useCombat) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && isCombat)) && hpPot[hp][1].amount > 0 && isAlive && !isBG && !isCon && !isMount) {
+				useCombat = hpPot[hp][1].inCombat ? mod.game.me.inCombat : true;
+				if (!hpPot[hp][1].inCd && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && useCombat) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && hpPot[hp][1].amount > 0 && mod.game.me.alive && !mod.game.me.inBattleground && !mod.game.contract.active && !mod.game.me.mounted) {
 					useItem(hpPot[hp]); hpPot[hp][1].inCd = true; hpPot[hp][1].amount--; setTimeout(function () {hpPot[hp][1].inCd = false;}, hpPot[hp][1].cd * 1000);
 					if (config.notice) msg(`Used ${hpPot[hp][1].name}, still have ${(hpPot[hp][1].amount)} left.`);
 				}
@@ -111,8 +79,8 @@ module.exports = function AutoPOT(mod) {
 		if (config.enabled && config.mp) {
 			nowMP = Math.round(parseInt(e.mp) / parseInt(e.maxMp) * 100);
 			for (let mp = 0; mp < mpPot.length; mp++) {
-				useCombat = mpPot[mp][1].inCombat ? isCombat : true;
-				if (!mpPot[mp][1].inCd && nowMP <= mpPot[mp][1].use_at && mpPot[mp][1].amount > 0 && isAlive && useCombat && !isBG && !isCon && !isMount) {
+				useCombat = mpPot[mp][1].inCombat ? mod.game.me.inCombat : true;
+				if (!mpPot[mp][1].inCd && nowMP <= mpPot[mp][1].use_at && mpPot[mp][1].amount > 0 && mod.game.me.alive && useCombat && !mod.game.me.inBattleground && !mod.game.contract.active && !mod.game.me.mounted) {
 					useItem(mpPot[mp]); mpPot[mp][1].inCd = true; mpPot[mp][1].amount--; setTimeout(function () {mpPot[mp][1].inCd = false;}, mpPot[mp][1].cd * 1000);
 					if (config.notice) msg(`Used ${mpPot[mp][1].name}, still have ${(mpPot[mp][1].amount)} left.`);
 				}
@@ -180,7 +148,7 @@ module.exports = function AutoPOT(mod) {
 	
 	function jsonSort(data, sortby){
 		let key = Object.keys(data).sort(function(a,b) {return parseFloat(data[b][sortby]) - parseFloat(data[a][sortby])});
-		let s2a = []; for(i = 0; i < key.length; i++) s2a.push([key[i], data[key[i]]]);
+		let s2a = []; for(let i = 0; i < key.length; i++) s2a.push([key[i], data[key[i]]]);
 		return s2a;
 	}
 	
