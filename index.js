@@ -3,8 +3,7 @@ module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command;
 	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
 	let gameId = null, VehicleEx = null, getInv = false, useCombat = false;
-	let mod.game.me.alive = false, mod.game.me.inCombat = false, isSlaying = false;
-	let zoneBG = 0, nowHP = 0, nowMP = 0;
+	let isSlaying = false, nowHP = 0, nowMP = 0;
 
 	cmd.add(['autopot', 'pot'], (arg1, arg2) => {
 		if(arg1 && arg1.length > 0) arg1 = arg1.toLowerCase();
