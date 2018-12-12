@@ -63,7 +63,7 @@ module.exports = function AutoPOT(mod) {
 		}
 	});
 	
-    mod.hook('S_PLAYER_STAT_UPDATE', 10, e => {
+	mod.hook('S_PLAYER_STAT_UPDATE', 10, e => {
 		if (config.enabled && config.hp) {
 			nowHP = Math.round(parseInt(e.hp) / parseInt(e.maxHp) * 100);
 			for (let hp = 0; hp < hpPot.length; hp++) {
@@ -84,7 +84,7 @@ module.exports = function AutoPOT(mod) {
 				}
 			}
 		}
-    });
+	});
 
 	function useItem(itemId) {
 		mod.send('C_USE_ITEM', 3, {
