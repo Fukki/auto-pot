@@ -89,9 +89,9 @@ module.exports = function AutoPOT(mod) {
 	function inContract() {
 		//Why contract always error only in NA
 		switch (proxyRegion) {
-			case 'na'
+			case 'na':
 				return true;
-			case else
+			default:
 				return !mod.game.contract.active;
 		}
 	}
