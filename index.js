@@ -1,6 +1,6 @@
 const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
-	const cmd = mod.command || mod.require.command;
+	const cmd = mod.command || mod.require.command, proxyRegion = mod.region.toLowerCase();
 	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
 	let getInv = false, useCombat = false, isSlaying = false, nowHP = 0, nowMP = 0;
 
@@ -68,7 +68,7 @@ module.exports = function AutoPOT(mod) {
 			nowHP = Math.round(parseInt(e.hp) / parseInt(e.maxHp) * 100);
 			for (let hp = 0; hp < hpPot.length; hp++) {
 				useCombat = hpPot[hp][1].inCombat ? mod.game.me.inCombat : true;
-				if (!hpPot[hp][1].inCd && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && useCombat) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && hpPot[hp][1].amount > 0 && mod.game.me.alive && !mod.game.me.inBattleground &&!mod.game.me.mounted) {
+				if (!hpPot[hp][1].inCd && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && useCombat) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && hpPot[hp][1].amount > 0 && mod.game.me.alive && inContract() && !mod.game.me.inBattleground &&!mod.game.me.mounted) {
 					useItem(hpPot[hp]); hpPot[hp][1].inCd = true; hpPot[hp][1].amount--; setTimeout(function () {hpPot[hp][1].inCd = false;}, hpPot[hp][1].cd * 1000);
 					if (config.notice) msg(`Used ${hpPot[hp][1].name}, still have ${(hpPot[hp][1].amount)} left.`);
 				}
@@ -78,13 +78,23 @@ module.exports = function AutoPOT(mod) {
 			nowMP = Math.round(parseInt(e.mp) / parseInt(e.maxMp) * 100);
 			for (let mp = 0; mp < mpPot.length; mp++) {
 				useCombat = mpPot[mp][1].inCombat ? mod.game.me.inCombat : true;
-				if (!mpPot[mp][1].inCd && nowMP <= mpPot[mp][1].use_at && mpPot[mp][1].amount > 0 && mod.game.me.alive && useCombat && !mod.game.me.inBattleground && !mod.game.me.mounted) {
+				if (!mpPot[mp][1].inCd && nowMP <= mpPot[mp][1].use_at && mpPot[mp][1].amount > 0 && mod.game.me.alive && useCombat && inContract() && !mod.game.me.inBattleground && !mod.game.me.mounted) {
 					useItem(mpPot[mp]); mpPot[mp][1].inCd = true; mpPot[mp][1].amount--; setTimeout(function () {mpPot[mp][1].inCd = false;}, mpPot[mp][1].cd * 1000);
 					if (config.notice) msg(`Used ${mpPot[mp][1].name}, still have ${(mpPot[mp][1].amount)} left.`);
 				}
 			}
 		}
 	});
+	
+	function inContract() {
+		//Why contract always error only in NA
+		switch (proxyRegion) {
+			case 'na'
+				return true;
+			case else
+				return !mod.game.contract.active;
+		}
+	}
 
 	function useItem(itemId) {
 		mod.send('C_USE_ITEM', 3, {
