@@ -13,7 +13,7 @@ start with "autopot" or "pot"
 - pot reload config -> reload config.json file
 
 ***HP Pot slaying mode only use in combat***</br>
-***Pot will not use when on mount and in battleground***</br>
+***Pot will not use when on mount or in battleground and in contract***</br>
 ***config.json, hp.json, mp.json will generate after enter the game***</br>
 
 # Config.json
