@@ -1,6 +1,8 @@
 # Autopot
 This is same let-me-pot</br>
-include slaying mode and reload file function</br>
+- Support slaying mode.
+- Support berserker unleash mode with negative HP.
+- Support for who no need use potion only in combat.</br>
 
 # Commands
 start with "autopot" or "pot"
