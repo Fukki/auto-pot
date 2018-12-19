@@ -48,9 +48,8 @@ start with "autopot" or "pot"
     }
 }
 ```
-# Noted Commit 30
-- added "inCombat" option into hp.json and mp.json for setting only use in combat or not</br>
-- for old user and who is lazy to add it by your self just remove hp.json and mp.json then re-login for new generate</br>
+# Helpful 
+[Something Helpful for new users](https://github.com/Fukki/auto-pot/issues/6)
 
 # Q&A
 Q: my *.json got replace after edit.</br>
