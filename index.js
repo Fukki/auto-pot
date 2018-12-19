@@ -57,7 +57,7 @@ module.exports = function AutoPOT(mod) {
 	
 	mod.hook('S_PLAYER_STAT_UPDATE', 10, e => {
 		if (config.enabled) {
-			isReady = mod.game.isIngame && !mod.game.isInLoadingScreen && (!isZergling ? mod.game.me.alive : true) && !mod.game.me.inBattleground && !mod.game.me.mounted && !mod.game.contract.active;
+			isReady = mod.game.isIngame && !mod.game.isInLoadingScreen && mod.game.me.alive && !mod.game.me.inBattleground && !mod.game.me.mounted && !mod.game.contract.active;
 			if (config.hp && isReady) {
 				nowHP = Math.round(parseInt(e.hp) / parseInt(e.maxHp) * 100);
 				for (let hp = 0; hp < hpPot.length; hp++) {
@@ -77,16 +77,6 @@ module.exports = function AutoPOT(mod) {
 				}
 			}
 		}
-	});
-	
-	mod.hook('S_ABNORMALITY_BEGIN', 3, e => {
-		if (mod.game.me.is(e.target) && e.id === 401730)
-			isZergling = true;
-	});
-	
-	mod.hook('S_ABNORMALITY_END', 1, e => {
-		if (mod.game.me.is(e.target) && e.id === 401730)
-			setTimeout(() => {isZergling = false;}, 3000);
 	});
 	
 	function msg(msg) {

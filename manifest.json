@@ -1,11 +1,9 @@
 {
 	"files": {
-		"index.js": "4a3e2d7553bbfb40f0067996cb32cf2e651109cba751ee50e9d8a04cdb6b90f4"
+		"index.js": "33511272adf71b3582246fe939b2f6b90dd3f53f954b6acb952f55e5d81c2bec"
 	},
 	"defs": {
 		"C_USE_ITEM": 3,
-		"S_ABNORMALITY_BEGIN": 3,
-		"S_ABNORMALITY_END": 1,
 		"S_INVEN": 16,
 		"S_PLAYER_STAT_UPDATE": 10
 	}
