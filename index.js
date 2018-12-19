@@ -19,9 +19,9 @@ module.exports = function AutoPOT(mod) {
 			case 'load':
 			case 'reload':
 				switch(arg2) {
-					case 'hp': hpPot = getHP(); msg(`HP.json has been reloaded.`); break;
-					case 'mp': mpPot = getMP(); msg(`MP.json has been reloaded.`); break;
-					case 'config': config = getConfig(); msg(`Config.json has been reloaded.`); break;
+					case 'hp': delete hpPot; hpPot = getHP(); msg(`HP.json has been reloaded.`); break;
+					case 'mp': delete mpPot; mpPot = getMP(); msg(`MP.json has been reloaded.`); break;
+					case 'config': delete config; config = getConfig(); msg(`Config.json has been reloaded.`); break;
 				}
 				break;
 			case 'notice':
