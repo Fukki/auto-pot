@@ -1,9 +1,8 @@
 {
 	"files": {
-		"index.js": "618b157a9afd416d9bdab4d33da459dcbe4840abc06e38e775ca92ff4dd63b92"
+		"index.js": "9c56f82455c451000ccec581c54518d204f4f8eb6c5e3329e9e15d910dcca4d0"
 	},
 	"defs": {
-		"C_PLAYER_LOCATION": 5,
 		"C_USE_ITEM": 3,
 		"S_ABNORMALITY_BEGIN": 3,
 		"S_ABNORMALITY_END": 1,

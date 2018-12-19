@@ -2,7 +2,7 @@ const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command;
 	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
-	let gPot = null, gLoc = null,isReady = false, isSlaying = false, isZergling = false, nowHP = 0, nowMP = 0;
+	let gPot = null,isReady = false, isSlaying = false, isZergling = false, nowHP = 0, nowMP = 0;
 	mod.game.initialize(['me', 'contract']);
 
 	cmd.add(['autopot', 'pot'], (arg1, arg2) => {
@@ -96,24 +96,12 @@ module.exports = function AutoPOT(mod) {
 		if (mod.game.me.is(e.target) && e.id === 401730)
 			setTimeout(() => {isZergling = false;}, 3000);
 	});
-	
-	mod.hook('C_PLAYER_LOCATION', 5, e => {
-		gLoc = e;
-	});
 
 	function useItem(itemId) {
 		mod.send('C_USE_ITEM', 3, {
 			gameId: mod.game.me.gameId,
 			id: Number(itemId[0]),
-			dbid: 0,
-			target: 0,
 			amount: 1,
-			dest: 0,
-			loc: gLoc.loc,
-			w: gLoc.w,
-			unk1: 0,
-			unk2: 0,
-			unk3: 0,
 			unk4: true
 		});
 	}
