@@ -137,13 +137,15 @@ module.exports = function AutoPOT(mod) {
 		return jsonSort(data, 'use_at');
 	}
 	
+	function msg(msg) {
+		cmd.message(msg);
+	}
+	
 	function jsonSort(data, sortby){
 		let key = Object.keys(data).sort(function(a,b) {return parseFloat(data[b][sortby]) - parseFloat(data[a][sortby])});
 		let s2a = []; for(let i = 0; i < key.length; i++) s2a.push([key[i], data[key[i]]]);
 		return s2a;
 	}
-	
-	function msg(msg) {cmd.message(msg);}
 	
 	function jsonSave(name,data) {fs.writeFile(path.join(__dirname, name), JSON.stringify(data, null, 4), err => {});}
 }
