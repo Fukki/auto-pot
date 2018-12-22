@@ -2,7 +2,7 @@ const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command;
 	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
-	let gPot = null, isReady = false, isSlaying = false, isZergling = false, nowHP = 0, nowMP = 0;
+	let gPot = null, isReady = false, isSlaying = false, nowHP = 0, nowMP = 0;
 	mod.game.initialize(['me', 'contract']);
 
 	cmd.add(['autopot', 'pot'], (arg1, arg2) => {
@@ -15,6 +15,14 @@ module.exports = function AutoPOT(mod) {
 				let getId = arg2.match(/#(\d*)@/);
 				getId = getId ? Number(getId[1]) : 0;
 				msg(`itemId: ${getId}.`);
+				break;
+			case 'load':
+			case 'reload':
+				switch(arg2) {
+					case 'hp': hpPot = getHP(); msg(`HP.json has been reloaded.`); break;
+					case 'mp': mpPot = getMP(); msg(`MP.json has been reloaded.`); break;
+					case 'config': config = getConfig(); msg(`Config.json has been reloaded.`); break;
+				}
 				break;
 			case 'notice':
 				config.notice = !config.notice;
@@ -78,10 +86,6 @@ module.exports = function AutoPOT(mod) {
 			}
 		}
 	});
-	
-	function msg(msg) {
-		cmd.message(msg);
-	}
 
 	function useItem(itemId) {
 		mod.send('C_USE_ITEM', 3, {
@@ -146,6 +150,8 @@ module.exports = function AutoPOT(mod) {
 		let s2a = []; for(let i = 0; i < key.length; i++) s2a.push([key[i], data[key[i]]]);
 		return s2a;
 	}
+	
+	function msg(msg) {cmd.message(msg);}
 	
 	function jsonSave(name,data) {fs.writeFile(path.join(__dirname, name), JSON.stringify(data, null, 4), err => {});}
 }
