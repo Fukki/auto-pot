@@ -16,14 +16,6 @@ module.exports = function AutoPOT(mod) {
 				getId = getId ? Number(getId[1]) : 0;
 				msg(`itemId: ${getId}.`);
 				break;
-			case 'load':
-			case 'reload':
-				switch(arg2) {
-					case 'hp': hpPot = getHP(); msg(`HP.json has been reloaded.`); break;
-					case 'mp': mpPot = getMP(); msg(`MP.json has been reloaded.`); break;
-					case 'config': config = getConfig(); msg(`Config.json has been reloaded.`); break;
-				}
-				break;
 			case 'notice':
 				config.notice = !config.notice;
 				msg(`Notice has ${config.notice ? 'Enable' : 'Disable'}.`);
