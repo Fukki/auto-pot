@@ -45,13 +45,13 @@ module.exports = function AutoPOT(mod) {
 	mod.hook('S_INVEN', 16, e => {
 		if (config.enabled) {
 			let hp = null, mp = null;
-			for(let i = 0; i < hpPot.length; i++) {
-				hp = e.items.find(item => item.id === Number(hpPot[i][0]));
-				if (hp) hpPot[i][1].amount = hp.amount;
+			for(let h = 0; h < hpPot.length; h++) {
+				hp = e.items.find(item => item.id === Number(hpPot[h][0]));
+				if (hp) hpPot[h][1].amount = hp.amount;
 			}
-			for(let i = 0; i < mpPot.length; i++) {
-				mp = e.items.find(item => item.id === Number(mpPot[i][0]));
-				if (mp) mpPot[i][1].amount = mp.amount;
+			for(let m = 0; m < mpPot.length; m++) {
+				mp = e.items.find(item => item.id === Number(mpPot[m][0]));
+				if (mp) mpPot[m][1].amount = mp.amount;
 			}
 		}
 	});
@@ -62,16 +62,16 @@ module.exports = function AutoPOT(mod) {
 			hp = hpPot.findIndex(item => Number(item[0]) === e.item);
 			if (hp >= 0 && !hpPot[hp][1].inCd) {
 				hpPot[hp][1].inCd = true;
-				setTimeout(function () {
-					hpPot[hp][1].inCd = false;
-				}, e.cooldown);
+				setTimeout(function (h) {
+					hpPot[h][1].inCd = false;
+				}, e.cooldown, hp);
 			}
 			mp = mpPot.findIndex(item => Number(item[0]) === e.item);
 			if (mp >= 0 && !mpPot[mp][1].inCd) {
 				mpPot[mp][1].inCd = true;
-				setTimeout(function () {
-					mpPot[mp][1].inCd = false;
-				}, e.cooldown);
+				setTimeout(function (m) {
+					mpPot[m][1].inCd = false;
+				}, e.cooldown, mp);
 			}
 		}
  	});
