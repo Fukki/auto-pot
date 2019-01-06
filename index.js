@@ -46,11 +46,11 @@ module.exports = function AutoPOT(mod) {
 		if (config.enabled) {
 			let hp = null, mp = null;
 			for(let h = 0; h < hpPot.length; h++) {
-				hp = e.items.find(item => item.id === Number(hpPot[h][0]));
+				hp = e.items.find(item => item.id === s2n(hpPot[h][0]));
 				if (hp) hpPot[h][1].amount = hp.amount;
 			}
 			for(let m = 0; m < mpPot.length; m++) {
-				mp = e.items.find(item => item.id === Number(mpPot[m][0]));
+				mp = e.items.find(item => item.id === s2n(mpPot[m][0]));
 				if (mp) mpPot[m][1].amount = mp.amount;
 			}
 		}
@@ -59,14 +59,14 @@ module.exports = function AutoPOT(mod) {
 	mod.hook('S_START_COOLTIME_ITEM', 1, e => {
 		if (config.enabled) {
 			let hp = null, mp = null;
-			hp = hpPot.findIndex(item => Number(item[0]) === e.item);
+			hp = hpPot.findIndex(item => s2n(item[0]) === e.item);
 			if (hp >= 0 && !hpPot[hp][1].inCd) {
 				hpPot[hp][1].inCd = true;
 				setTimeout(function (h) {
 					hpPot[h][1].inCd = false;
 				}, e.cooldown, hp);
 			}
-			mp = mpPot.findIndex(item => Number(item[0]) === e.item);
+			mp = mpPot.findIndex(item => s2n(item[0]) === e.item);
 			if (mp >= 0 && !mpPot[mp][1].inCd) {
 				mpPot[mp][1].inCd = true;
 				setTimeout(function (m) {
@@ -80,7 +80,7 @@ module.exports = function AutoPOT(mod) {
 		if (config.enabled) {
 			isReady = mod.game.isIngame && !mod.game.isInLoadingScreen && mod.game.me.alive && !mod.game.me.inBattleground && !mod.game.me.mounted && !mod.game.contract.active;
 			if (config.hp && isReady) {
-				nowHP = Math.round(parseInt(e.hp) / parseInt(e.maxHp) * 100);
+				nowHP = Math.round(s2n(e.hp) / s2n(e.maxHp) * 100);
 				for (let hp = 0; hp < hpPot.length; hp++) {
 					if (!hpPot[hp][1].inCd && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && (hpPot[hp][1].inCombat ? mod.game.me.inCombat : true)) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && hpPot[hp][1].amount > 0) {
 						useItem(hpPot[hp]);
@@ -91,7 +91,7 @@ module.exports = function AutoPOT(mod) {
 				}
 			}
 			if (config.mp && isReady) {
-				nowMP = Math.round(parseInt(e.mp) / parseInt(e.maxMp) * 100);
+				nowMP = Math.round(s2n(e.mp) / s2n(e.maxMp) * 100);
 				for (let mp = 0; mp < mpPot.length; mp++) {
 					if (!mpPot[mp][1].inCd && nowMP <= mpPot[mp][1].use_at && mpPot[mp][1].amount > 0 && (mpPot[mp][1].inCombat ? mod.game.me.inCombat : true)) {
 						useItem(mpPot[mp]);
@@ -103,6 +103,10 @@ module.exports = function AutoPOT(mod) {
 			}
 		}
 	});
+	
+	function s2n(n) {
+		return Number(n);
+	}
 
 	function useItem(itemId) {
 		mod.send('C_USE_ITEM', 3, {
