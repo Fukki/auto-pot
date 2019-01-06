@@ -60,18 +60,18 @@ module.exports = function AutoPOT(mod) {
 		if (config.enabled) {
 			let hp = null, mp = null;
 			hp = hpPot.findIndex(item => s2n(item[0]) === e.item);
-			if (hp >= 0 && !hpPot[hp][1].inCd) {
+			if (hp >= 0) {
 				hpPot[hp][1].inCd = true;
 				setTimeout(function (h) {
 					hpPot[h][1].inCd = false;
-				}, e.cooldown * 1000, hp);
+				}, e.cooldown, hp);
 			}
 			mp = mpPot.findIndex(item => s2n(item[0]) === e.item);
-			if (mp >= 0 && !mpPot[mp][1].inCd) {
+			if (mp >= 0) {
 				mpPot[mp][1].inCd = true;
 				setTimeout(function (m) {
 					mpPot[m][1].inCd = false;
-				}, e.cooldown * 1000, mp);
+				}, e.cooldown, mp);
 			}
 		}
  	});
@@ -84,7 +84,6 @@ module.exports = function AutoPOT(mod) {
 				for (let hp = 0; hp < hpPot.length; hp++) {
 					if (!hpPot[hp][1].inCd && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && (hpPot[hp][1].inCombat ? mod.game.me.inCombat : true)) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && hpPot[hp][1].amount > 0) {
 						useItem(hpPot[hp]);
-						hpPot[hp][1].inCd = true;
 						hpPot[hp][1].amount--;
 						if (config.notice)
 							msg(`Used ${hpPot[hp][1].name}, ${(hpPot[hp][1].amount)} left.`);
@@ -96,7 +95,6 @@ module.exports = function AutoPOT(mod) {
 				for (let mp = 0; mp < mpPot.length; mp++) {
 					if (!mpPot[mp][1].inCd && nowMP <= mpPot[mp][1].use_at && mpPot[mp][1].amount > 0 && (mpPot[mp][1].inCombat ? mod.game.me.inCombat : true)) {
 						useItem(mpPot[mp]);
-						mpPot[mp][1].inCd = true;
 						mpPot[mp][1].amount--;
 						if (config.notice)
 							msg(`Used ${mpPot[mp][1].name}, ${(mpPot[mp][1].amount)} left.`);
