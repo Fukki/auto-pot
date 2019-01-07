@@ -31,6 +31,7 @@ start with "autopot" or "pot"
         "inCombat": true,                   #if true = only use in combat, false = always use ignore combat
         "use_at": 80,                       #set use at with x percent
         "slay_at": 30,                      #set use in slaying mode with x percent
+        "cd": 10                            #set pot cooldown x sec
     }
 }
 ```
@@ -41,6 +42,7 @@ start with "autopot" or "pot"
         "name": "Prime Replenishment Potable",  #Your pot name for item notice if enable
         "inCombat": false,                      #if true = only use in combat, false = always use ignore combat
         "use_at": 50,                           #set use at with x percent
+        "cd": 10                                #set pot cooldown x sec
     }
 }
 ```
@@ -51,11 +53,8 @@ start with "autopot" or "pot"
 Q: my *.json got replace after edit.</br>
 A: check your syntax before save because *.json will replace if system cant read.</br>
 
-Q: auto-pot not use the potion.</br>
-A: try to update your inventroy like use item 1 time or open it 1 time.</br>
-
-Q: where is item cooldown i can't set it.</br>
-A: item cooldown now move to read by system it auto detect.</br>
+Q: after reload *.json with in game command auto-pot not work.</br>
+A: update your inventory by open it one time or use item one time.</br>
 
 A: got the error.</br>
 Q: check your proxy and this module has up to date or not.</br>
