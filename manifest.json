@@ -1,11 +1,10 @@
 {
 	"files": {
-		"index.js": "0184ae5ca9bf4f3871ef12b9395a1fffa07f69ba11d1361e48340bdbc89374d8"
+		"index.js": "03f713472ce11c554bb02dcefd4eb1e724f4f2f34c4c3e904e6f3049e6b9351a"
 	},
 	"defs": {
 		"C_USE_ITEM": 3,
 		"S_INVEN": 16,
-		"S_PLAYER_STAT_UPDATE": 10,
-		"S_START_COOLTIME_ITEM": 1
+		"S_PLAYER_STAT_UPDATE": 10
 	}
 }

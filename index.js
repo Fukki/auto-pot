@@ -2,7 +2,7 @@ const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command;
 	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
-	let isReady = false, isSlaying = false, nowHP = 0, nowMP = 0;
+	let gPot = null, isReady = false, isSlaying = false, nowHP = 0, nowMP = 0;
 	mod.game.initialize(['me', 'contract']);
 
 	cmd.add(['autopot', 'pot'], (arg1, arg2) => {
@@ -44,71 +44,40 @@ module.exports = function AutoPOT(mod) {
 	
 	mod.hook('S_INVEN', 16, e => {
 		if (config.enabled) {
-			let hp = null, mp = null;
-			for(let h = 0; h < hpPot.length; h++) {
-				hp = e.items.find(item => item.id === s2n(hpPot[h][0]));
-				if (hp) hpPot[h][1].amount = hp.amount;
+			for(let i = 0; i < hpPot.length; i++) {
+				gPot = e.items.find(item => item.id === Number(hpPot[i][0]));
+				if (gPot) hpPot[i][1].amount = gPot.amount;
 			}
-			for(let m = 0; m < mpPot.length; m++) {
-				mp = e.items.find(item => item.id === s2n(mpPot[m][0]));
-				if (mp) mpPot[m][1].amount = mp.amount;
+			for(let i = 0; i < mpPot.length; i++) {
+				gPot = e.items.find(item => item.id === Number(mpPot[i][0]));
+				if (gPot) mpPot[i][1].amount = gPot.amount;
 			}
 		}
 	});
-	
-	mod.hook('S_START_COOLTIME_ITEM', 1, e => {
-		if (config.enabled) {
-			let hp = null, mp = null;
-			hp = hpPot.findIndex(item => s2n(item[0]) === e.item);
-			if (hp >= 0) {
-				hpPot[hp][1].inCd = true;
-				setTimeout(function (h) {
-					hpPot[h][1].inCd = false;
-				}, e.cooldown, hp);
-			}
-			mp = mpPot.findIndex(item => s2n(item[0]) === e.item);
-			if (mp >= 0) {
-				mpPot[mp][1].inCd = true;
-				setTimeout(function (m) {
-					mpPot[m][1].inCd = false;
-				}, e.cooldown, mp);
-			}
-		}
- 	});
 	
 	mod.hook('S_PLAYER_STAT_UPDATE', 10, e => {
 		if (config.enabled) {
 			isReady = mod.game.isIngame && !mod.game.isInLoadingScreen && mod.game.me.alive && !mod.game.me.inBattleground && !mod.game.me.mounted && !mod.game.contract.active;
 			if (config.hp && isReady) {
-				nowHP = Math.round(s2n(e.hp) / s2n(e.maxHp) * 100);
+				nowHP = Math.round(parseInt(e.hp) / parseInt(e.maxHp) * 100);
 				for (let hp = 0; hp < hpPot.length; hp++) {
 					if (!hpPot[hp][1].inCd && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && (hpPot[hp][1].inCombat ? mod.game.me.inCombat : true)) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && hpPot[hp][1].amount > 0) {
-						useItem(hpPot[hp]);
-						hpPot[hp][1].inCd = true;
-						hpPot[hp][1].amount--;
-						if (config.notice)
-							msg(`Used ${hpPot[hp][1].name}, ${(hpPot[hp][1].amount)} left.`);
+						useItem(hpPot[hp]); hpPot[hp][1].inCd = true; hpPot[hp][1].amount--; setTimeout(function () {hpPot[hp][1].inCd = false;}, hpPot[hp][1].cd * 1000);
+						if (config.notice) msg(`Used ${hpPot[hp][1].name}, ${(hpPot[hp][1].amount)} left.`);
 					}
 				}
 			}
 			if (config.mp && isReady) {
-				nowMP = Math.round(s2n(e.mp) / s2n(e.maxMp) * 100);
+				nowMP = Math.round(parseInt(e.mp) / parseInt(e.maxMp) * 100);
 				for (let mp = 0; mp < mpPot.length; mp++) {
 					if (!mpPot[mp][1].inCd && nowMP <= mpPot[mp][1].use_at && mpPot[mp][1].amount > 0 && (mpPot[mp][1].inCombat ? mod.game.me.inCombat : true)) {
-						useItem(mpPot[mp]);
-						mpPot[mp][1].inCd = true;
-						mpPot[mp][1].amount--;
-						if (config.notice)
-							msg(`Used ${mpPot[mp][1].name}, ${(mpPot[mp][1].amount)} left.`);
+						useItem(mpPot[mp]); mpPot[mp][1].inCd = true; mpPot[mp][1].amount--; setTimeout(function () {mpPot[mp][1].inCd = false;}, mpPot[mp][1].cd * 1000);
+						if (config.notice) msg(`Used ${mpPot[mp][1].name}, ${(mpPot[mp][1].amount)} left.`);
 					}
 				}
 			}
 		}
 	});
-	
-	function s2n(n) {
-		return Number(n);
-	}
 
 	function useItem(itemId) {
 		mod.send('C_USE_ITEM', 3, {
@@ -144,7 +113,8 @@ module.exports = function AutoPOT(mod) {
 				name: 'Prime Recovery Potable',
 				inCombat: true,
 				use_at: 80,
-				slay_at: 30
+				slay_at: 30,
+				cd: 10
 			}
 			jsonSave('hp.json', data);
 		}
@@ -159,7 +129,8 @@ module.exports = function AutoPOT(mod) {
 			data[6562] = {
 				name: 'Prime Replenishment Potable',
 				inCombat: false,
-				use_at: 50
+				use_at: 50,
+				cd: 10
 			}
 			jsonSave('mp.json', data);
 		}
