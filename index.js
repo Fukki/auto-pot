@@ -2,7 +2,7 @@ const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command;
 	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
-	let gPot = null, isReady = false, isSlaying = false, nowHP = 0, nowMP = 0;
+	let gPot = null, isReady = false, isSlaying = false, isBattleground = false, nowHP = 0, nowMP = 0;
 	mod.game.initialize(['me', 'contract']);
 
 	cmd.add(['autopot', 'pot'], (arg1, arg2) => {
@@ -57,11 +57,12 @@ module.exports = function AutoPOT(mod) {
 	
 	mod.hook('S_PLAYER_STAT_UPDATE', 10, e => {
 		if (config.enabled) {
-			isReady = mod.game.isIngame && !mod.game.isInLoadingScreen && mod.game.me.alive && !mod.game.me.inBattleground && !mod.game.me.mounted && !mod.game.contract.active;
+			isReady = mod.game.isIngame && !mod.game.isInLoadingScreen && mod.game.me.alive && !mod.game.me.mounted && !mod.game.contract.active;
+			isBattleground = mod.game.me.inBattleground || mod.game.me.zone === 152;
 			if (config.hp && isReady) {
 				nowHP = Math.round(parseInt(e.hp) / parseInt(e.maxHp) * 100);
 				for (let hp = 0; hp < hpPot.length; hp++) {
-					if (!hpPot[hp][1].inCd && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && (hpPot[hp][1].inCombat ? mod.game.me.inCombat : true)) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && hpPot[hp][1].amount > 0) {
+					if (!hpPot[hp][1].inCd && hpPot[hp][1].amount > 0 && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && (hpPot[hp][1].inCombat ? mod.game.me.inCombat : true)) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && (hpPot[hp][1].inBattleground ? isBattleground : true)) {
 						useItem(hpPot[hp]); hpPot[hp][1].inCd = true; hpPot[hp][1].amount--; setTimeout(function () {hpPot[hp][1].inCd = false;}, hpPot[hp][1].cd * 1000);
 						if (config.notice) msg(`Used ${hpPot[hp][1].name}, ${(hpPot[hp][1].amount)} left.`);
 					}
@@ -70,7 +71,7 @@ module.exports = function AutoPOT(mod) {
 			if (config.mp && isReady) {
 				nowMP = Math.round(parseInt(e.mp) / parseInt(e.maxMp) * 100);
 				for (let mp = 0; mp < mpPot.length; mp++) {
-					if (!mpPot[mp][1].inCd && nowMP <= mpPot[mp][1].use_at && mpPot[mp][1].amount > 0 && (mpPot[mp][1].inCombat ? mod.game.me.inCombat : true)) {
+					if (!mpPot[mp][1].inCd && mpPot[mp][1].amount > 0 && nowMP <= mpPot[mp][1].use_at && (mpPot[mp][1].inCombat ? mod.game.me.inCombat : true) && (mpPot[hp][1].inBattleground ? isBattleground : true)) {
 						useItem(mpPot[mp]); mpPot[mp][1].inCd = true; mpPot[mp][1].amount--; setTimeout(function () {mpPot[mp][1].inCd = false;}, mpPot[mp][1].cd * 1000);
 						if (config.notice) msg(`Used ${mpPot[mp][1].name}, ${(mpPot[mp][1].amount)} left.`);
 					}
@@ -111,6 +112,7 @@ module.exports = function AutoPOT(mod) {
 		} catch (e) {
 			data[6552] = {
 				name: 'Prime Recovery Potable',
+				inBattleground: false,
 				inCombat: true,
 				use_at: 80,
 				slay_at: 30,
@@ -128,6 +130,7 @@ module.exports = function AutoPOT(mod) {
 		} catch (e) {
 			data[6562] = {
 				name: 'Prime Replenishment Potable',
+				inBattleground: false,
 				inCombat: false,
 				use_at: 50,
 				cd: 10
