@@ -28,6 +28,7 @@ start with "autopot" or "pot"
 {
     "6552": {                               #Your pot ID
         "name": "Prime Recovery Potable",   #Your pot name for item notice if enable
+        "inBattleground": false,            #if true = this pot will use only in CivilUnrest and Battleground
         "inCombat": true,                   #if true = only use in combat, false = always use ignore combat
         "use_at": 80,                       #set use at with x percent
         "slay_at": 30,                      #set use in slaying mode with x percent
@@ -40,6 +41,7 @@ start with "autopot" or "pot"
 {
     "6562": {                                   #Your pot ID
         "name": "Prime Replenishment Potable",  #Your pot name for item notice if enable
+        "inBattleground": false,            #if true = this pot will use only in CivilUnrest and Battleground
         "inCombat": false,                      #if true = only use in combat, false = always use ignore combat
         "use_at": 50,                           #set use at with x percent
         "cd": 10                                #set pot cooldown x sec
