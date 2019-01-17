@@ -71,7 +71,7 @@ module.exports = function AutoPOT(mod) {
 			if (config.mp && isReady) {
 				nowMP = Math.round(parseInt(e.mp) / parseInt(e.maxMp) * 100);
 				for (let mp = 0; mp < mpPot.length; mp++) {
-					if (!mpPot[mp][1].inCd && mpPot[mp][1].amount > 0 && nowMP <= mpPot[mp][1].use_at && (mpPot[mp][1].inCombat ? mod.game.me.inCombat : true) && (mpPot[hp][1].inBattleground ? isBattleground : true)) {
+					if (!mpPot[mp][1].inCd && mpPot[mp][1].amount > 0 && nowMP <= mpPot[mp][1].use_at && (mpPot[mp][1].inCombat ? mod.game.me.inCombat : true) && (mpPot[mp][1].inBattleground ? isBattleground : true)) {
 						useItem(mpPot[mp]); mpPot[mp][1].inCd = true; mpPot[mp][1].amount--; setTimeout(function () {mpPot[mp][1].inCd = false;}, mpPot[mp][1].cd * 1000);
 						if (config.notice) msg(`Used ${mpPot[mp][1].name}, ${(mpPot[mp][1].amount)} left.`);
 					}
