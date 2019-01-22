@@ -42,6 +42,13 @@ module.exports = function AutoPOT(mod) {
 		}
 	});
 	
+	mod.hook("S_RETURN_TO_LOBBY", 'raw', () => {
+		if (config.enabled) {
+			hpPot = getHP();
+			mpPot = getMP();
+		}
+	});
+	
 	mod.hook('S_INVEN', 16, e => {
 		if (config.enabled) {
 			for(let i = 0; i < hpPot.length; i++) {
