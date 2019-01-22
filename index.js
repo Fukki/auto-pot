@@ -44,8 +44,10 @@ module.exports = function AutoPOT(mod) {
 	
 	mod.hook('S_RETURN_TO_LOBBY', 'raw', () => {
 		if (config.enabled) {
-			hpPot = getHP();
-			mpPot = getMP();
+			for (let hp = 0; hp < hpPot.length; hp++)
+				hpPot[hp][1].amount = 0;
+			for (let mp = 0; mp < mpPot.length; mp++)
+				mpPot[mp][1].amount = 0;
 		}
 	});
 	
