@@ -11,7 +11,7 @@ start with "autopot" or "pot"
 - pot slaying -> Enable and Disable auto use hp pot with slaying mode
 
 ***HP Pot slaying mode only use in combat***</br>
-***Pot will not use when on mount and in contract***</br>
+***potion will not use when on mount and in contract***</br>
 ***for battleground potion you need set it by your self***</br>
 ***config.json, hp.json, mp.json will generate after enter the game***</br>
 
