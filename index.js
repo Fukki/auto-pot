@@ -1,7 +1,7 @@
 const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command;
-	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
+	let config = getConfig(), hpPot = getHP(), mpPot = getMP(), inUpdate = false;
 	let gPot = null, isReady = false, isSlaying = false, nowHP = 0, nowMP = 0;
 	mod.game.initialize(['me', 'contract']);
 
@@ -42,17 +42,9 @@ module.exports = function AutoPOT(mod) {
 		}
 	});
 	
-	mod.hook('S_RETURN_TO_LOBBY', 'raw', () => {
-		if (config.enabled) {
-			for (let hp = 0; hp < hpPot.length; hp++)
-				hpPot[hp][1].amount = 0;
-			for (let mp = 0; mp < mpPot.length; mp++)
-				mpPot[mp][1].amount = 0;
-		}
-	});
-	
 	mod.hook('S_INVEN', 16, e => {
-		if (config.enabled) {
+		if (config.enabled && !inUpdate) {
+			inUpdate = true;
 			for(let i = 0; i < hpPot.length; i++) {
 				gPot = e.items.find(item => item.id === Number(hpPot[i][0]));
 				if (gPot) hpPot[i][1].amount = gPot.amount;
@@ -61,6 +53,7 @@ module.exports = function AutoPOT(mod) {
 				gPot = e.items.find(item => item.id === Number(mpPot[i][0]));
 				if (gPot) mpPot[i][1].amount = gPot.amount;
 			}
+			inUpdate = false;
 		}
 	});
 	
@@ -85,6 +78,16 @@ module.exports = function AutoPOT(mod) {
 					}
 				}
 			}
+		}
+	});
+	
+	mod.hook('S_RETURN_TO_LOBBY', 'raw', () => {
+		if (config.enabled) {
+			inUpdate = false;
+			for (let hp = 0; hp < hpPot.length; hp++)
+				hpPot[hp][1].amount = 0;
+			for (let mp = 0; mp < mpPot.length; mp++)
+				mpPot[mp][1].amount = 0;
 		}
 	});
 
