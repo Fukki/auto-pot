@@ -46,14 +46,14 @@ module.exports = function AutoPOT(mod) {
 					if (mpPot[mp][1].amount > 0)
 						data += `[${mp}] ${mpPot[mp][1].name} - ${mpPot[mp][1].amount}\n`;
 				data += '===== Status =====\n';
-				data += 'inGame: ${mod.game.isIngame}\n';
-				data += 'inLoading: ${mod.game.isInLoadingScreen}\n';
-				data += 'isAlive: ${mod.game.me.alive}\n';
-				data += 'onMount: ${mod.game.me.mounted}\n';
-				data += 'inCombat: ${mod.game.me.inCombat}\n';
-				data += 'inContract: ${mod.game.me.active}\n';
-				data += 'inBattleground: ${mod.game.me.inBattleground}\n';
-				data += 'inCivilUnrest: ${mod.game.me.zone === 152}';
+				data += 'inGame: ${(mod.game.isIngame)}\n';
+				data += 'inLoading: ${(mod.game.isInLoadingScreen)}\n';
+				data += 'isAlive: ${(mod.game.me.alive)}\n';
+				data += 'onMount: ${(mod.game.me.mounted)}\n';
+				data += 'inCombat: ${(mod.game.me.inCombat)}\n';
+				data += 'inContract: ${(mod.game.me.active)}\n';
+				data += 'inBattleground: ${(mod.game.me.inBattleground)}\n';
+				data += 'inCivilUnrest: ${(mod.game.me.zone === 152)}';
 				msg(data);
 				data = '';
 				break;
