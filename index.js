@@ -36,14 +36,35 @@ module.exports = function AutoPOT(mod) {
 				config.mp = !config.mp;
 				msg(`MP pot has ${config.mp ? 'Enable' : 'Disable'}.`);
 				break;
+			case 'check':
+				let data = '===== HP Potion =====\n';
+				for (let hp = 0; hp < hpPot.length; hp++)
+					if (hpPot[hp][1].amount > 0)
+						data += `[${hp}] ${hpPot[hp][1].name} - ${hpPot[hp][1].amount}\n`;
+				data += '===== MP Potion =====\n';
+				for (let mp = 0; mp < mpPot.length; mp++)
+					if (mpPot[mp][1].amount > 0)
+						data += `[${mp}] ${mpPot[mp][1].name} - ${mpPot[mp][1].amount}\n`;
+				data += '===== Status =====\n';
+				data += 'inGame: ${mod.game.isIngame}\n';
+				data += 'inLoading: ${mod.game.isInLoadingScreen}\n';
+				data += 'isAlive: ${mod.game.me.alive}\n';
+				data += 'onMount: ${mod.game.me.mounted}\n';
+				data += 'inCombat: ${mod.game.me.inCombat}\n';
+				data += 'inContract: ${mod.game.me.active}\n';
+				data += 'inBattleground: ${mod.game.me.inBattleground}\n';
+				data += 'inCivilUnrest: ${mod.game.me.zone === 152}';
+				msg(data);
+				data = '';
+				break;
 			default:
 				msg(`Wrong command :v`);
 				break;
 		}
 	});
 	
-	mod.hook('S_INVEN', 16, e => {
-		if (config.enabled && !inUpdate) {
+	mod.hook('S_INVEN', 17, e => {
+		if (!inUpdate) {
 			inUpdate = true;
 			for(let i = 0; i < hpPot.length; i++) {
 				gPot = e.items.find(item => item.id === Number(hpPot[i][0]));
@@ -82,13 +103,11 @@ module.exports = function AutoPOT(mod) {
 	});
 	
 	mod.hook('S_RETURN_TO_LOBBY', 'raw', () => {
-		if (config.enabled) {
-			inUpdate = false;
-			for (let hp = 0; hp < hpPot.length; hp++)
-				hpPot[hp][1].amount = 0;
-			for (let mp = 0; mp < mpPot.length; mp++)
-				mpPot[mp][1].amount = 0;
-		}
+		inUpdate = false;
+		for (let hp = 0; hp < hpPot.length; hp++)
+			hpPot[hp][1].amount = 0;
+		for (let mp = 0; mp < mpPot.length; mp++)
+			mpPot[mp][1].amount = 0;
 	});
 
 	function useItem(itemId) {

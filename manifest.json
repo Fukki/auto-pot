@@ -1,10 +1,10 @@
 {
 	"files": {
-		"index.js": "1e81cc903c1ec27c289b6d02715a498154ecaf577d11e1cbd0897bc919a70e37"
+		"index.js": "eec586e71de3307bd1ec3a3c6598b23c9666728c3fbb20804cf50205ad4ec346"
 	},
 	"defs": {
 		"C_USE_ITEM": 3,
-		"S_INVEN": 16,
+		"S_INVEN": 17,
 		"S_PLAYER_STAT_UPDATE": 10,
 		"S_RETURN_TO_LOBBY": "raw"
 	}
