@@ -42,7 +42,7 @@ module.exports = function AutoPOT(mod) {
 		}
 	});
 	
-	mod.hook('S_INVEN', 16, e => {
+	mod.hook('S_INVEN', 17, e => {
 		if (config.enabled && !inUpdate) {
 			inUpdate = true;
 			for(let i = 0; i < hpPot.length; i++) {
