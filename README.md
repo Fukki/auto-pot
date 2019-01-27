@@ -2,8 +2,8 @@
 This is same let-me-pot</br>
 - Support slaying mode.
 - Support for who no need use potion only in combat.</br>
-- Support CivilUnrest and Battleground potion.</br>
-- Require "tera-game-state"</br>
+- Support Civil Unrest and Battleground potion.</br>
+- Require Caali's Proxy "tera-game-state"</br>
 # Commands
 start with "autopot" or "pot"
 - pot id [item link] -> Get an item id
