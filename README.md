@@ -9,6 +9,7 @@ start with "autopot" or "pot"
 - pot hp -> Enable and Disable auto use hp pot
 - pot mp -> Enable and Disable auto use mp pot *default is always enable
 - pot slaying -> Enable and Disable auto use hp pot with slaying mode
+- pot check -> check your pot amount
 
 ***HP Pot slaying mode only use in combat***</br>
 ***potion will not use when on mount and in contract***</br>
