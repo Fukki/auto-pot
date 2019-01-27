@@ -58,12 +58,14 @@ module.exports = function AutoPOT(mod) {
 		if (!inUpdate) {
 			inUpdate = true;
 			for(let i = 0; i < hpPot.length; i++) {
-				gPot = e.items.find(item => item.id === Number(hpPot[i][0]));
-				if (gPot) hpPot[i][1].amount = gPot.amount;
+				gPot = e.items.filter(item => item.id === Number(hpPot[i][0]));
+				if (gPot.length > 0)
+					hpPot[i][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
 			}
 			for(let i = 0; i < mpPot.length; i++) {
-				gPot = e.items.find(item => item.id === Number(mpPot[i][0]));
-				if (gPot) mpPot[i][1].amount = gPot.amount;
+				gPot = e.items.filter(item => item.id === Number(mpPot[i][0]));
+				if (gPot.length > 0)
+					mpPot[i][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
 			}
 			inUpdate = false;
 		}
