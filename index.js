@@ -37,14 +37,14 @@ module.exports = function AutoPOT(mod) {
 				msg(`MP pot has ${config.mp ? 'Enable' : 'Disable'}.`);
 				break;
 			case 'check':
-				let data = '===== HP Potion =====\n';
+				let data = '\n===== HP Potion =====\n';
 				for (let hp = 0; hp < hpPot.length; hp++)
 					if (hpPot[hp][1].amount > 0)
-						data += `[${hp}] ${hpPot[hp][1].name} - ${hpPot[hp][1].amount}\n`;
+						data += `[${hp}] ${hpPot[hp][1].name} - ${hpPot[hp][1].amount.toLocaleString()}\n`;
 				data += '===== MP Potion =====\n';
 				for (let mp = 0; mp < mpPot.length; mp++)
 					if (mpPot[mp][1].amount > 0)
-						data += `[${mp}] ${mpPot[mp][1].name} - ${mpPot[mp][1].amount}\n`;
+						data += `[${mp}] ${mpPot[mp][1].name} - ${mpPot[mp][1].amount.toLocaleString()}\n`;
 				msg(data);
 				data = '';
 				break;
@@ -57,15 +57,13 @@ module.exports = function AutoPOT(mod) {
 	mod.hook('S_INVEN', 17, e => {
 		if (!inUpdate) {
 			inUpdate = true;
-			for(let i = 0; i < hpPot.length; i++) {
-				gPot = e.items.filter(item => item.id === Number(hpPot[i][0]));
-				if (gPot.length > 0)
-					hpPot[i][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
+			for(let hp = 0; hp < hpPot.length; hp++) {
+				gPot = e.items.filter(item => item.id === Number(hpPot[hp][0]));
+				if (gPot.length > 0) hpPot[hp][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
 			}
-			for(let i = 0; i < mpPot.length; i++) {
-				gPot = e.items.filter(item => item.id === Number(mpPot[i][0]));
-				if (gPot.length > 0)
-					mpPot[i][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
+			for(let mp = 0; mp < mpPot.length; mp++) {
+				gPot = e.items.filter(item => item.id === Number(mpPot[mp][0]));
+				if (gPot.length > 0) mpPot[mp][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
 			}
 			inUpdate = false;
 		}
@@ -79,7 +77,7 @@ module.exports = function AutoPOT(mod) {
 				for (let hp = 0; hp < hpPot.length; hp++) {
 					if (!hpPot[hp][1].inCd && hpPot[hp][1].amount > 0 && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && (hpPot[hp][1].inCombat ? mod.game.me.inCombat : true)) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && (hpPot[hp][1].inBattleground ? (mod.game.me.inBattleground || mod.game.me.zone === 152) : !mod.game.me.inBattleground)) {
 						useItem(hpPot[hp]); hpPot[hp][1].inCd = true; hpPot[hp][1].amount--; setTimeout(function () {hpPot[hp][1].inCd = false;}, hpPot[hp][1].cd * 1000);
-						if (config.notice) msg(`Used ${hpPot[hp][1].name}, ${(hpPot[hp][1].amount)} left.`);
+						if (config.notice) msg(`Used ${hpPot[hp][1].name}, ${(hpPot[hp][1].amount.toLocaleString())} left.`);
 					}
 				}
 			}
@@ -88,7 +86,7 @@ module.exports = function AutoPOT(mod) {
 				for (let mp = 0; mp < mpPot.length; mp++) {
 					if (!mpPot[mp][1].inCd && mpPot[mp][1].amount > 0 && nowMP <= mpPot[mp][1].use_at && (mpPot[mp][1].inCombat ? mod.game.me.inCombat : true) && (mpPot[mp][1].inBattleground ? (mod.game.me.inBattleground || mod.game.me.zone === 152) : !mod.game.me.inBattleground)) {
 						useItem(mpPot[mp]); mpPot[mp][1].inCd = true; mpPot[mp][1].amount--; setTimeout(function () {mpPot[mp][1].inCd = false;}, mpPot[mp][1].cd * 1000);
-						if (config.notice) msg(`Used ${mpPot[mp][1].name}, ${(mpPot[mp][1].amount)} left.`);
+						if (config.notice) msg(`Used ${mpPot[mp][1].name}, ${(mpPot[mp][1].amount.toLocaleString())} left.`);
 					}
 				}
 			}
