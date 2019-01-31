@@ -14,7 +14,7 @@ start with "autopot" or "pot"
 - pot reload hp                 #Reload HP.json file
 - pot reload mp                 #Reload MP.json file
 - pot reload config             #Reload Config.json file
-- pot check                     #check your pot amount
+- pot check                     #show module debug
 ```
 
 ***HP Pot slaying mode only use in combat***</br>
