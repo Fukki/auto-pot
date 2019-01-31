@@ -6,11 +6,16 @@ This is same let-me-pot</br>
 - Require Caali's Proxy "tera-game-state"</br>
 # Commands
 start with "autopot" or "pot"
-- pot id [item link] -> Get an item id
-- pot hp -> Enable and Disable auto use hp pot
-- pot mp -> Enable and Disable auto use mp pot *default is always enable
-- pot slaying -> Enable and Disable auto use hp pot with slaying mode
-- pot check -> check your pot amount
+```
+- pot id [item link]            #Get an item id
+- pot hp                        #Enable and Disable auto use hp pot
+- pot mp                        #Enable and Disable auto use mp pot *default is always enable
+- pot slaying                   #Enable and Disable auto use hp pot with slaying mode
+- pot reload hp                 #Reload HP.json file
+- pot reload mp                 #Reload MP.json file
+- pot reload config             #Reload Config.json file
+- pot check                     #check your pot amount
+```
 
 ***HP Pot slaying mode only use in combat***</br>
 ***potion will not use when on mount and in contract***</br>
