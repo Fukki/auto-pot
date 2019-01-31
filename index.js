@@ -20,26 +20,6 @@ module.exports = function AutoPOT(mod) {
 				config.notice = !config.notice;
 				msg(`Notice has ${config.notice ? 'Enable' : 'Disable'}.`);
 				break;
-			case 're':
-			case 'load':
-			case 'reload':
-				switch (arg2) {
-					case 'hp':
-						hpPot = getHP();
-						mod.toServer('C_SHOW_INVEN', 1, {unk: 1});
-						msg(`HP.json has been reloaded.`);
-						break;
-					case 'mp':
-						mpPot = getMP();
-						mod.toServer('C_SHOW_INVEN', 1, {unk: 1});
-						msg(`MP.json has been reloaded.`);
-						break;
-					case 'config':
-						config = getConfig();
-						msg(`Config.json has been reloaded.`);
-						break;
-				}
-				break;
 			case 'slay':
 			case 'slaying':
 				isSlaying = !isSlaying;
@@ -56,8 +36,26 @@ module.exports = function AutoPOT(mod) {
 				config.mp = !config.mp;
 				msg(`MP pot has ${config.mp ? 'Enable' : 'Disable'}.`);
 				break;
+			case 'option':
+			case 'status':
+			case 'debug':
 			case 'check':
-				let data = '\n===== HP Potion =====\n';
+				let data = '\n===== Option =====\n';
+				data += `Module: ${config.enabled}\n`;
+				data += `HP: ${config.hp}\n`;
+				data += `MP: ${config.mp}\n`;
+				data += `Slaying: ${isSlaying}\n`;
+				data += `Notice: ${config.notice}\n`;
+				data += '===== Status =====\n';
+				data += `inGame: ${mod.game.isIngame}\n`;
+				data += `inLoading: ${mod.game.isInLoadingScreen}\n`;
+				data += `isAlive: ${mod.game.me.alive}\n`;
+				data += `onMount: ${mod.game.me.mounted}\n`;
+				data += `inCombat: ${mod.game.me.inCombat}\n`;
+				data += `inContract: ${mod.game.me.active}\n`;
+				data += `inBattleground: ${mod.game.me.inBattleground}\n`;
+				data += `inCivilUnrest: ${mod.game.me.zone === 152}\n`;
+				data += '===== HP Potion =====\n';
 				for (let hp = 0; hp < hpPot.length; hp++)
 					if (hpPot[hp][1].amount > 0)
 						data += `[${hp}] ${hpPot[hp][1].name} - ${hpPot[hp][1].amount.toLocaleString()}\n`;
@@ -185,9 +183,9 @@ module.exports = function AutoPOT(mod) {
 		cmd.message(msg);
 	}
 	
-	function jsonRequire(p) {
-		delete require.cache[require.resolve(p)];
-		return require(p);
+	function jsonRequire(data) {
+		delete require.cache[require.resolve(data)];
+		return require(data);
 	}
 	
 	function jsonSort(data, sortby){

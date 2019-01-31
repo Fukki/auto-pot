@@ -1,9 +1,8 @@
 {
 	"files": {
-		"index.js": "5984783cd0e61d660c64a293c580ef743c87cba7843fa57a3b34d2a326dea055"
+		"index.js": "a33b5c766fd4608d7ba6bfedee24d87915576376d29ca4efbc2898536810aa2d"
 	},
 	"defs": {
-		"C_SHOW_INVEN": 1,
 		"C_USE_ITEM": 3,
 		"S_INVEN": 17,
 		"S_PLAYER_STAT_UPDATE": 10,
