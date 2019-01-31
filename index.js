@@ -26,10 +26,12 @@ module.exports = function AutoPOT(mod) {
 				switch (arg2) {
 					case 'hp':
 						hpPot = getHP();
+						mod.toServer('C_SHOW_INVEN', 1, {unk: 1});
 						msg(`HP.json has been reloaded.`);
 						break;
 					case 'mp':
 						mpPot = getMP();
+						mod.toServer('C_SHOW_INVEN', 1, {unk: 1});
 						msg(`MP.json has been reloaded.`);
 						break;
 					case 'config':
