@@ -29,11 +29,11 @@ module.exports = function AutoPOT(mod) {
 						msg(`HP.json has been reloaded.`);
 						break;
 					case 'mp':
-						hpPot = getMP();
+						mpPot = getMP();
 						msg(`MP.json has been reloaded.`);
 						break;
 					case 'config':
-						hpPot = getConfig();
+						config = getConfig();
 						msg(`Config.json has been reloaded.`);
 						break;
 				}
