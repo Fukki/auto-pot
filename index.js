@@ -20,6 +20,24 @@ module.exports = function AutoPOT(mod) {
 				config.notice = !config.notice;
 				msg(`Notice has ${config.notice ? 'Enable' : 'Disable'}.`);
 				break;
+			case 're':
+			case 'load':
+			case 'reload':
+				switch (arg2) {
+					case 'hp':
+						hpPot = getHP();
+						msg(`HP.json has been reloaded.`);
+						break;
+					case 'mp':
+						hpPot = getMP();
+						msg(`MP.json has been reloaded.`);
+						break;
+					case 'config':
+						hpPot = getConfig();
+						msg(`Config.json has been reloaded.`);
+						break;
+				}
+				break;
 			case 'slay':
 			case 'slaying':
 				isSlaying = !isSlaying;
@@ -113,7 +131,7 @@ module.exports = function AutoPOT(mod) {
 	function getConfig() {
 		let data = {};
 		try {
-			data = require('./config.json');
+			data = jsonRequire('./config.json');
 		} catch (e) {
 			data = {
 				enabled: true,
@@ -129,7 +147,7 @@ module.exports = function AutoPOT(mod) {
 	function getHP() {
 		let data = {};
 		try {
-			data = require('./hp.json');
+			data = jsonRequire('./hp.json');
 		} catch (e) {
 			data[6552] = {
 				name: 'Prime Recovery Potable',
@@ -147,7 +165,7 @@ module.exports = function AutoPOT(mod) {
 	function getMP() {
 		let data = {};
 		try {
-			data = require('./mp.json');
+			data = jsonRequire('./mp.json');
 		} catch (e) {
 			data[6562] = {
 				name: 'Prime Replenishment Potable',
@@ -163,6 +181,11 @@ module.exports = function AutoPOT(mod) {
 	
 	function msg(msg) {
 		cmd.message(msg);
+	}
+	
+	function jsonRequire(p) {
+		delete require.cache[require.resolve(p)];
+		return require(p);
 	}
 	
 	function jsonSort(data, sortby){
