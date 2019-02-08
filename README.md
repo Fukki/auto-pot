@@ -73,7 +73,7 @@ A: update your inventory by open it one time or use item one time.</br>
 A: got the error.</br>
 Q: check your proxy and this module has up to date or not.</br>
 
-A: how to make item link</br>
+A: how to get item link for "pot id XXX"</br>
 B: just hold left shift + left click on item</br>
 ![image](https://user-images.githubusercontent.com/26898177/52502964-bb9c5c00-2c16-11e9-9019-0de08f5a06fb.png)</br>
 ***Any problem pls open Issues**
