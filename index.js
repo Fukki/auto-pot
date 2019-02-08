@@ -1,8 +1,8 @@
 const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command;
-	let config = getConfig(), hpPot = getHP(), mpPot = getMP(), inUpdate = false;
-	let gPot = null, isReady = false, isSlaying = false, nowHP = 0, nowMP = 0;
+	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
+	let gPot = null, isSlaying = false, inUpdate = false;
 	mod.game.initialize(['me', 'contract']);
 
 	cmd.add(['autopot', 'pot'], (arg1, arg2) => {
@@ -76,38 +76,29 @@ module.exports = function AutoPOT(mod) {
 		if (!inUpdate) {
 			inUpdate = true;
 			for(let hp = 0; hp < hpPot.length; hp++) {
-				gPot = e.items.filter(item => item.id === Number(hpPot[hp][0]));
+				gPot = e.items.filter(item => item.id === s2n(hpPot[hp][0]));
 				if (gPot.length > 0) hpPot[hp][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
 			}
 			for(let mp = 0; mp < mpPot.length; mp++) {
-				gPot = e.items.filter(item => item.id === Number(mpPot[mp][0]));
+				gPot = e.items.filter(item => item.id === s2n(mpPot[mp][0]));
 				if (gPot.length > 0) mpPot[mp][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
 			}
 			inUpdate = false;
 		}
 	});
 	
+	mod.hook('S_CREATURE_CHANGE_HP', 6, e => {
+		if (config.enabled && config.hp) useHP(Math.round(s2n(e.curHp) / s2n(e.maxHp) * 100));
+	});
+	
+	mod.hook('S_PLAYER_CHANGE_MP', 1, e => {
+		if (config.enabled && config.mp) useMP(Math.round(s2n(e.currentMp) / s2n(e.maxMp) * 100));
+	});
+	
 	mod.hook('S_PLAYER_STAT_UPDATE', 10, e => {
 		if (config.enabled) {
-			isReady = mod.game.isIngame && !mod.game.isInLoadingScreen && mod.game.me.alive && !mod.game.me.mounted && !mod.game.contract.active;
-			if (config.hp && isReady) {
-				nowHP = Math.round(parseInt(e.hp) / parseInt(e.maxHp) * 100);
-				for (let hp = 0; hp < hpPot.length; hp++) {
-					if (!hpPot[hp][1].inCd && hpPot[hp][1].amount > 0 && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && (hpPot[hp][1].inCombat ? mod.game.me.inCombat : true)) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && (hpPot[hp][1].inBattleground ? (mod.game.me.inBattleground || mod.game.me.zone === 152) : !mod.game.me.inBattleground)) {
-						useItem(hpPot[hp]); hpPot[hp][1].inCd = true; hpPot[hp][1].amount--; setTimeout(function () {hpPot[hp][1].inCd = false;}, hpPot[hp][1].cd * 1000);
-						if (config.notice) msg(`Used ${hpPot[hp][1].name}, ${(hpPot[hp][1].amount.toLocaleString())} left.`);
-					}
-				}
-			}
-			if (config.mp && isReady) {
-				nowMP = Math.round(parseInt(e.mp) / parseInt(e.maxMp) * 100);
-				for (let mp = 0; mp < mpPot.length; mp++) {
-					if (!mpPot[mp][1].inCd && mpPot[mp][1].amount > 0 && nowMP <= mpPot[mp][1].use_at && (mpPot[mp][1].inCombat ? mod.game.me.inCombat : true) && (mpPot[mp][1].inBattleground ? (mod.game.me.inBattleground || mod.game.me.zone === 152) : !mod.game.me.inBattleground)) {
-						useItem(mpPot[mp]); mpPot[mp][1].inCd = true; mpPot[mp][1].amount--; setTimeout(function () {mpPot[mp][1].inCd = false;}, mpPot[mp][1].cd * 1000);
-						if (config.notice) msg(`Used ${mpPot[mp][1].name}, ${(mpPot[mp][1].amount.toLocaleString())} left.`);
-					}
-				}
-			}
+			if (config.hp) useHP(Math.round(s2n(e.hp) / s2n(e.maxHp) * 100));
+			if (config.mp) useMP(Math.round(s2n(e.mp) / s2n(e.maxMp) * 100));
 		}
 	});
 	
@@ -118,11 +109,33 @@ module.exports = function AutoPOT(mod) {
 		for (let mp = 0; mp < mpPot.length; mp++)
 			mpPot[mp][1].amount = 0;
 	});
+	
+	function useHP(nowHP) {
+		if (mod.game.isIngame && !mod.game.isInLoadingScreen && mod.game.me.alive && !mod.game.me.mounted && !mod.game.contract.active) {
+			for (let hp = 0; hp < hpPot.length; hp++) {
+				if (!hpPot[hp][1].inCd && hpPot[hp][1].amount > 0 && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && (hpPot[hp][1].inCombat ? mod.game.me.inCombat : true)) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && (hpPot[hp][1].inBattleground ? (mod.game.me.inBattleground || mod.game.me.zone === 152) : !mod.game.me.inBattleground)) {
+					useItem(hpPot[hp]); hpPot[hp][1].inCd = true; hpPot[hp][1].amount--; setTimeout(function () {hpPot[hp][1].inCd = false;}, hpPot[hp][1].cd * 1000);
+					if (config.notice) msg(`Used ${hpPot[hp][1].name}, ${(hpPot[hp][1].amount.toLocaleString())} left.`);
+				}
+			}
+		}
+	}
+	
+	function useMP(nowMP) {
+		if (mod.game.isIngame && !mod.game.isInLoadingScreen && mod.game.me.alive && !mod.game.me.mounted && !mod.game.contract.active) {
+			for (let mp = 0; mp < mpPot.length; mp++) {
+				if (!mpPot[mp][1].inCd && mpPot[mp][1].amount > 0 && nowMP <= mpPot[mp][1].use_at && (mpPot[mp][1].inCombat ? mod.game.me.inCombat : true) && (mpPot[mp][1].inBattleground ? (mod.game.me.inBattleground || mod.game.me.zone === 152) : !mod.game.me.inBattleground)) {
+					useItem(mpPot[mp]); mpPot[mp][1].inCd = true; mpPot[mp][1].amount--; setTimeout(function () {mpPot[mp][1].inCd = false;}, mpPot[mp][1].cd * 1000);
+					if (config.notice) msg(`Used ${mpPot[mp][1].name}, ${(mpPot[mp][1].amount.toLocaleString())} left.`);
+				}
+			}
+		}
+	}
 
 	function useItem(itemId) {
 		mod.send('C_USE_ITEM', 3, {
 			gameId: mod.game.me.gameId,
-			id: Number(itemId[0]),
+			id: s2n(itemId[0]),
 			amount: 1,
 			unk4: true
 		});
@@ -179,6 +192,10 @@ module.exports = function AutoPOT(mod) {
 		return jsonSort(data, 'use_at');
 	}
 	
+	function s2n(n) {
+		return Number(n);
+	}
+	
 	function msg(msg) {
 		cmd.message(msg);
 	}
@@ -194,5 +211,5 @@ module.exports = function AutoPOT(mod) {
 		return s2a;
 	}
 	
-	function jsonSave(name,data) {fs.writeFile(path.join(__dirname, name), JSON.stringify(data, null, 4), err => {});}
+	function jsonSave(name, data) {fs.writeFile(path.join(__dirname, name), JSON.stringify(data, null, 4), err => {});}
 }
