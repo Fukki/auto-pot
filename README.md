@@ -61,9 +61,6 @@ start with "autopot" or "pot"
 [Something Helpful for new users](https://github.com/Fukki/auto-pot/issues/6)
 
 # Q & A
-Q: got the error in Pinkie's Proxy or another proxy.</br>
-A: change to Caali's Proxy because this is design for Caali's Proxy only.</br>
-
 Q: my *.json got replace after edit.</br>
 A: check your syntax before save because *.json will replace if system cant read.</br>
 
