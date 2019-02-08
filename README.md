@@ -60,7 +60,10 @@ start with "autopot" or "pot"
 # Helpful 
 [Something Helpful for new users](https://github.com/Fukki/auto-pot/issues/6)
 
-# Q&A
+# Q & A
+Q: got the error in pinkie proxy or another proxy.
+A: change to caali proxy because this design to caali proxy only.
+
 Q: my *.json got replace after edit.</br>
 A: check your syntax before save because *.json will replace if system cant read.</br>
 
@@ -70,4 +73,7 @@ A: update your inventory by open it one time or use item one time.</br>
 A: got the error.</br>
 Q: check your proxy and this module has up to date or not.</br>
 
+A: how to make item link</br>
+B: just hold left shift + left click on item</br>
+![image](https://user-images.githubusercontent.com/26898177/52502964-bb9c5c00-2c16-11e9-9019-0de08f5a06fb.png)</br>
 ***Any problem pls open Issues**
