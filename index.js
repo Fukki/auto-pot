@@ -88,17 +88,17 @@ module.exports = function AutoPOT(mod) {
 	});
 	
 	mod.hook('S_CREATURE_CHANGE_HP', 6, e => {
-		if (config.enabled && config.hp) useHP(Math.round(s2n(e.curHp) / s2n(e.maxHp) * 100));
+		if (config.enabled) useHP(Math.round(s2n(e.curHp) / s2n(e.maxHp) * 100));
 	});
 	
 	mod.hook('S_PLAYER_CHANGE_MP', 1, e => {
-		if (config.enabled && config.mp) useMP(Math.round(s2n(e.currentMp) / s2n(e.maxMp) * 100));
+		if (config.enabled) useMP(Math.round(s2n(e.currentMp) / s2n(e.maxMp) * 100));
 	});
 	
 	mod.hook('S_PLAYER_STAT_UPDATE', 10, e => {
 		if (config.enabled) {
-			if (config.hp) useHP(Math.round(s2n(e.hp) / s2n(e.maxHp) * 100));
-			if (config.mp) useMP(Math.round(s2n(e.mp) / s2n(e.maxMp) * 100));
+			useHP(Math.round(s2n(e.hp) / s2n(e.maxHp) * 100));
+			useMP(Math.round(s2n(e.mp) / s2n(e.maxMp) * 100));
 		}
 	});
 	
@@ -111,7 +111,7 @@ module.exports = function AutoPOT(mod) {
 	});
 	
 	function useHP(nowHP) {
-		if (mod.game.isIngame && !mod.game.isInLoadingScreen && mod.game.me.alive && !mod.game.me.mounted && !mod.game.contract.active) {
+		if (config.hp && (mod.game.isIngame && !mod.game.isInLoadingScreen && mod.game.me.alive && !mod.game.me.mounted && !mod.game.contract.active)) {
 			for (let hp = 0; hp < hpPot.length; hp++) {
 				if (!hpPot[hp][1].inCd && hpPot[hp][1].amount > 0 && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && (hpPot[hp][1].inCombat ? mod.game.me.inCombat : true)) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && (hpPot[hp][1].inBattleground ? (mod.game.me.inBattleground || mod.game.me.zone === 152) : !mod.game.me.inBattleground)) {
 					useItem(hpPot[hp]); hpPot[hp][1].inCd = true; hpPot[hp][1].amount--; setTimeout(function () {hpPot[hp][1].inCd = false;}, hpPot[hp][1].cd * 1000);
@@ -122,7 +122,7 @@ module.exports = function AutoPOT(mod) {
 	}
 	
 	function useMP(nowMP) {
-		if (mod.game.isIngame && !mod.game.isInLoadingScreen && mod.game.me.alive && !mod.game.me.mounted && !mod.game.contract.active) {
+		if (config.mp && (mod.game.isIngame && !mod.game.isInLoadingScreen && mod.game.me.alive && !mod.game.me.mounted && !mod.game.contract.active)) {
 			for (let mp = 0; mp < mpPot.length; mp++) {
 				if (!mpPot[mp][1].inCd && mpPot[mp][1].amount > 0 && nowMP <= mpPot[mp][1].use_at && (mpPot[mp][1].inCombat ? mod.game.me.inCombat : true) && (mpPot[mp][1].inBattleground ? (mod.game.me.inBattleground || mod.game.me.zone === 152) : !mod.game.me.inBattleground)) {
 					useItem(mpPot[mp]); mpPot[mp][1].inCd = true; mpPot[mp][1].amount--; setTimeout(function () {mpPot[mp][1].inCd = false;}, mpPot[mp][1].cd * 1000);
