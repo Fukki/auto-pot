@@ -1,8 +1,9 @@
 {
 	"files": {
-		"index.js": "5f016265bd9882786cfc9ce0d723e723afd4062dd5d64ed15ab2b296b43e3e53"
+		"index.js": "b03b889cde74250c179e522c32fb0120609464403a75f0e5c855a68c7ef2d840"
 	},
 	"defs": {
+		"C_SHOW_INVEN": 1,
 		"C_USE_ITEM": 3,
 		"S_CREATURE_CHANGE_HP": 6,
 		"S_INVEN": 17,

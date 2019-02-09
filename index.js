@@ -20,6 +20,26 @@ module.exports = function AutoPOT(mod) {
 				config.notice = !config.notice;
 				msg(`Notice has ${config.notice ? 'Enable' : 'Disable'}.`);
 				break;
+			case 're':
+			case 'load':
+			case 'reload':
+				switch (arg2) {
+					case 'hp':
+						hpPot = getHP();
+						mod.toServer('C_SHOW_INVEN', 1, {unk: 1});
+						msg(`HP.json has been reloaded.`);
+						break;
+					case 'mp':
+						mpPot = getMP();
+						mod.toServer('C_SHOW_INVEN', 1, {unk: 1});
+						msg(`MP.json has been reloaded.`);
+						break;
+					case 'config':
+						config = getConfig();
+						msg(`Config.json has been reloaded.`);
+						break;
+				}
+				break;
 			case 'slay':
 			case 'slaying':
 				isSlaying = !isSlaying;
