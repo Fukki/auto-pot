@@ -1,13 +1,11 @@
 {
 	"files": {
-		"index.js": "b03b889cde74250c179e522c32fb0120609464403a75f0e5c855a68c7ef2d840"
+		"index.js": "b64efc222346c93cbfa0ff415d76517f0e99a694f452deff23ad3df3da8a5e4a"
 	},
 	"defs": {
 		"C_SHOW_INVEN": 1,
 		"C_USE_ITEM": 3,
-		"S_CREATURE_CHANGE_HP": 6,
 		"S_INVEN": 17,
-		"S_PLAYER_CHANGE_MP": 1,
 		"S_PLAYER_STAT_UPDATE": 10,
 		"S_RETURN_TO_LOBBY": "raw"
 	}
