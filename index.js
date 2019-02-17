@@ -125,7 +125,7 @@ module.exports = function AutoPOT(mod) {
 					text: `<font color="#4DD0E1" size="+20">Combat: </font><font color="${TFColor(mod.game.me.inCombat)}" size="+20">${TFString(mod.game.me.inCombat)}</font><br>`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">Contract: </font><font color="${TFColor(mod.game.me.active)}" size="+20">${TFString(mod.game.me.active)}</font><br>`
+					text: `<font color="#4DD0E1" size="+20">Contract: </font><font color="${TFColor(mod.game.contract.active)}" size="+20">${TFString(mod.game.contract.active)}</font><br>`
 				},
 				{
 					text: `<font color="#4DD0E1" size="+20">Battleground: </font><font color="${TFColor(mod.game.me.inBattleground)}" size="+20">${TFString(mod.game.me.inBattleground)}</font><br>`
