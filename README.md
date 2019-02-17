@@ -8,6 +8,7 @@ This is same let-me-pot</br>
 # Commands
 start with "autopot" or "pot"
 ```
+- pot                           #Just open GUI if you lazy full command :/
 - pot id [item link]            #Get an item id <Shift + Left Click>
 - pot hp                        #Enable and Disable auto use hp pot
 - pot mp                        #Enable and Disable auto use mp pot *default is always enable
@@ -15,7 +16,7 @@ start with "autopot" or "pot"
 - pot reload hp                 #Reload HP.json file
 - pot reload mp                 #Reload MP.json file
 - pot reload config             #Reload Config.json file
-- pot check                     #show module debug
+- pot debug                     #Show DEBUG
 ```
 
 ***HP Pot slaying mode only use in combat***</br>
