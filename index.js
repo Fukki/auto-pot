@@ -40,9 +40,8 @@ module.exports = function AutoPOT(mod) {
 			case 'id':
 			case 'getid':
 			case 'itemid':
-				let getId = arg2.match(/#(\d*)@/);
-				getId = getId ? Number(getId[1]) : 0;
-				msg(`itemId: ${getId}.`);
+				arg2 = arg2 ? arg2.match(/#(\d*)@/) : 0;
+				msg(`itemId: ${(arg2 ? Number(arg2[1]) : 0)}.`);
 				break;
 			case 'notice':
 				config.notice = !config.notice;
