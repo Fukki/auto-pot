@@ -29,7 +29,7 @@ module.exports = function AutoPOT(mod) {
 				id: 0,
 				title: title,
 				body: d
-			})
+			});
 		}
 	}
 	
@@ -194,7 +194,7 @@ module.exports = function AutoPOT(mod) {
 		}
 	});
 	
-	mod.hook('S_INVEN', 17, e => {
+	mod.hook('S_INVEN', mod.majorPatchVersion > 79 ? 18 : 17, e => {
 		if (!inUpdate) {
 			inUpdate = true;
 			for(let hp = 0; hp < hpPot.length; hp++) {
