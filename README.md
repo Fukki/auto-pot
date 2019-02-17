@@ -27,8 +27,9 @@ start with "autopot" or "pot"
 ```
 {
     "enabled": true,  #enable and disable this module
-    "hp": false,      #if set true = enable auto HP pot, false = need in game command for enable
-    "mp": true,       #if set true = enable auto MP pot, false = need in game command for enable
+    "hp": false,      #if set true = enable auto HP pot
+    "mp": true,       #if set true = enable auto MP pot
+    "slaying": false, #if set true = enable slaying mode
     "notice": false   #if set true = notice your pot left, false = not notice
 }
 ```
