@@ -33,14 +33,6 @@ module.exports = function AutoPOT(mod) {
 		}
 	}
 	
-	function TFColor(e) {
-		return e ? '#4DE19C' : '#FE6F5E';
-	}
-	
-	function TFString(e) {
-		return e ? 'True' : 'False';
-	}
-	
 	cmd.add(['autopot', 'pot'], (arg1, arg2) => {
 		if(arg1 && arg1.length > 0) arg1 = arg1.toLowerCase();
 		if(arg2 && arg2.length > 0) arg2 = arg2.toLowerCase();
@@ -336,4 +328,8 @@ module.exports = function AutoPOT(mod) {
 	}
 	
 	function jsonSave(name, data) {fs.writeFile(path.join(__dirname, name), JSON.stringify(data, null, 4), err => {});}
+	
+	function TFColor(e) {return e ? '#4DE19C' : '#FE6F5E';}
+	
+	function TFString(e) {return e ? 'True' : 'False';}
 }
