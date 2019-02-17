@@ -1,10 +1,46 @@
 const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
-	const cmd = mod.command || mod.require.command;
+	const cmd = mod.command || mod.require.command, map = new WeakMap();
 	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
-	let gPot = null, isSlaying = false, inUpdate = false;
+	let gPot = null, inUpdate = false, TmpData = [];
 	mod.game.initialize(['me', 'contract']);
 
+	if (!map.has(mod.dispatch || mod)) {
+		map.set(mod.dispatch || mod, {});
+		mod.hook('C_CONFIRM_UPDATE_NOTIFICATION', 'raw', () => false);
+		mod.hook('C_ADMIN', 1, e => {
+			e.command.split(";").forEach(s => mod.command.exec(s));
+			return false;
+		});
+	}
+	
+	const gui = {
+		parse(array, title, d = '') {
+			for (let i = 0; i < array.length; i++) {
+				if (d.length >= 16000) {
+					d += `Gui data limit exceeded, some values may be missing.`;
+					break;
+				}
+				if (array[i].command) d += `<a href="admincommand:/@${array[i].command}">${array[i].text}</a>`;
+				else if (!array[i].command) d += `${array[i].text}`;
+				else continue;
+			}
+			mod.toClient('S_ANNOUNCE_UPDATE_NOTIFICATION', 1, {
+				id: 0,
+				title: title,
+				body: d
+			})
+		}
+	}
+	
+	function TFColor(e) {
+		return e ? '#4DE19C' : '#FE6F5E';
+	}
+	
+	function TFString(e) {
+		return e ? 'True' : 'False';
+	}
+	
 	cmd.add(['autopot', 'pot'], (arg1, arg2) => {
 		if(arg1 && arg1.length > 0) arg1 = arg1.toLowerCase();
 		if(arg2 && arg2.length > 0) arg2 = arg2.toLowerCase();
@@ -42,14 +78,14 @@ module.exports = function AutoPOT(mod) {
 				break;
 			case 'slay':
 			case 'slaying':
-				isSlaying = !isSlaying;
-				msg(`Slaying mode has ${isSlaying ? 'Enable' : 'Disable'}. ${config.hp ? '' : 'HP pot has Enable.'}`);
+				config.slaying = !config.slaying;
+				msg(`Slaying mode has ${config.slaying ? 'Enable' : 'Disable'}. ${config.hp ? '' : 'HP pot has Enable.'}`);
 				if (!config.hp) config.hp = true;
 				break;
 			case 'hp':
 				config.hp = !config.hp;
-				msg(`HP pot has ${config.hp ? 'Enable' : 'Disable'}. ${isSlaying ? 'Slaying mode has Disable.' : ''}`);
-				if (isSlaying) isSlaying = false;
+				msg(`HP pot has ${config.hp ? 'Enable' : 'Disable'}. ${config.slaying ? 'Slaying mode has Disable.' : ''}`);
+				if (config.slaying) config.slaying = false;
 				break;
 			case 'mp':
 			case 'mana':
@@ -60,34 +96,109 @@ module.exports = function AutoPOT(mod) {
 			case 'status':
 			case 'debug':
 			case 'check':
-				let data = '\n===== Option =====\n';
-				data += `Module: ${config.enabled}\n`;
-				data += `HP: ${config.hp}\n`;
-				data += `MP: ${config.mp}\n`;
-				data += `Slaying: ${isSlaying}\n`;
-				data += `Notice: ${config.notice}\n`;
-				data += '===== Status =====\n';
-				data += `inGame: ${mod.game.isIngame}\n`;
-				data += `inLoading: ${mod.game.isInLoadingScreen}\n`;
-				data += `isAlive: ${mod.game.me.alive}\n`;
-				data += `onMount: ${mod.game.me.mounted}\n`;
-				data += `inCombat: ${mod.game.me.inCombat}\n`;
-				data += `inContract: ${mod.game.me.active}\n`;
-				data += `inBattleground: ${mod.game.me.inBattleground}\n`;
-				data += `inCivilUnrest: ${mod.game.me.zone === 152}\n`;
-				data += '===== HP Potion =====\n';
+				TmpData = [];
+				TmpData.push({
+					text: `<font color="#4DD0E1" size="+24">===== Option =====</font><br>`
+				},
+				{
+					text: `<font color="#4DD0E1" size="+20">Module: </font><font color="${TFColor(config.enabled)}" size="+20">${TFString(config.enabled)}</font><br>`
+				},
+				{
+					text: `<font color="#4DD0E1" size="+20">HP: </font><font color="${TFColor(config.hp)}" size="+20">${TFString(config.hp)}</font><br>`
+				},
+				{
+					text: `<font color="#4DD0E1" size="+20">MP: </font><font color="${TFColor(config.mp)}" size="+20">${TFString(config.mp)}</font><br>`
+				},
+				{
+					text: `<font color="#4DD0E1" size="+20">Slaying: </font><font color="${TFColor(config.slaying)}" size="+20">${TFString(config.slaying)}</font><br>`
+				},
+				{
+					text: `<font color="#4DD0E1" size="+20">Notice: </font><font color="${TFColor(config.notice)}" size="+20">${TFString(config.notice)}</font><br>`
+				},
+				{
+					text: `<br><font color="#4DD0E1" size="+24">===== Status =====</font><br>`
+				},
+				{
+					text: `<font color="#4DD0E1" size="+20">Game: </font><font color="${TFColor(mod.game.isIngame)}" size="+20">${TFString(mod.game.isIngame)}</font><br>`
+				},
+				{
+					text: `<font color="#4DD0E1" size="+20">Loading: </font><font color="${TFColor(mod.game.isInLoadingScreen)}" size="+20">${TFString(mod.game.isInLoadingScreen)}</font><br>`
+				},
+				{
+					text: `<font color="#4DD0E1" size="+20">Alive: </font><font color="${TFColor(mod.game.me.alive)}" size="+20">${TFString(mod.game.me.alive)}</font><br>`
+				},
+				{
+					text: `<font color="#4DD0E1" size="+20">Mount: </font><font color="${TFColor(mod.game.me.mounted)}" size="+20">${TFString(mod.game.me.mounted)}</font><br>`
+				},
+				{
+					text: `<font color="#4DD0E1" size="+20">Combat: </font><font color="${TFColor(mod.game.me.inCombat)}" size="+20">${TFString(mod.game.me.inCombat)}</font><br>`
+				},
+				{
+					text: `<font color="#4DD0E1" size="+20">Contract: </font><font color="${TFColor(mod.game.me.active)}" size="+20">${TFString(mod.game.me.active)}</font><br>`
+				},
+				{
+					text: `<font color="#4DD0E1" size="+20">Battleground: </font><font color="${TFColor(mod.game.me.inBattleground)}" size="+20">${TFString(mod.game.me.inBattleground)}</font><br>`
+				},
+				{
+					text: `<font color="#4DD0E1" size="+20">CivilUnrest: </font><font color="${TFColor(mod.game.me.zone === 152)}" size="+20">${TFString(mod.game.me.zone === 152)}</font><br>`
+				});
+				TmpData.push({
+					text: `<br><font color="#4DD0E1" size="+24">===== HP Potion =====</font><br>`
+				});
 				for (let hp = 0; hp < hpPot.length; hp++)
 					if (hpPot[hp][1].amount > 0)
-						data += `[${hp}] ${hpPot[hp][1].name} - ${hpPot[hp][1].amount.toLocaleString()}\n`;
-				data += '===== MP Potion =====\n';
+						TmpData.push({
+							text: `<font color="#4DD0E1" size="+20">[${hp + 1}] ${hpPot[hp][1].name} - ${hpPot[hp][1].amount.toLocaleString()}</font><br>`
+						});
+				TmpData.push({
+					text: `<br><font color="#4DD0E1" size="+24">===== MP Potion =====</font><br>`
+				});
 				for (let mp = 0; mp < mpPot.length; mp++)
 					if (mpPot[mp][1].amount > 0)
-						data += `[${mp}] ${mpPot[mp][1].name} - ${mpPot[mp][1].amount.toLocaleString()}\n`;
-				msg(data);
-				data = '';
+						TmpData.push({
+							text: `<font color="#4DD0E1" size="+20">[${mp + 1}] ${mpPot[mp][1].name} - ${mpPot[mp][1].amount.toLocaleString()}</font><br>`
+						});
+				gui.parse(TmpData, `<font color="#E0B0FF">Auto Potion - Debug</font>`);
+				TmpData = [];
 				break;
 			default:
-				msg(`Wrong command :v`);
+				TmpData = [];
+				TmpData.push({
+					text: `<font color="#4DD0E1" size="+24">===== Option =====</font><br>`
+				},
+				{
+					text: `<font color="${TFColor(config.hp)}" size="+20">- HP</font><br>`,
+					command: `autopot hp;autopot`
+				},
+				{
+					text: `<font color="${TFColor(config.mp)}" size="+20">- MP</font><br>`,
+					command: `autopot mp;autopot`
+				},
+				{
+					text: `<font color="${TFColor(config.slaying)}" size="+20">- Slaying Mode</font><br>`,
+					command: `autopot slay;autopot`
+				},
+				{
+					text: `<font color="${TFColor(config.notice)}" size="+20">- Notice</font><br>`,
+					command: `autopot notice;autopot`
+				},
+				{
+					text: `<br><font color="#4DD0E1" size="+24">===== Reload JSON ======</font><br>`
+				},
+				{
+					text: `<font color="#FE6F5E" size="+20">- Config.json</font><br>`,
+					command: `autopot reload config;autopot`
+				},
+				{
+					text: `<font color="#FE6F5E" size="+20">- HP.json</font><br>`,
+					command: `autopot reload hp;autopot`
+				},
+				{
+					text: `<font color="#FE6F5E" size="+20">- MP.json</font><br>`,
+					command: `autopot reload mp;autopot`
+				});
+				gui.parse(TmpData, `<font color="#E0B0FF">Auto Potion</font>`);
+				TmpData = [];
 				break;
 		}
 	});
@@ -125,7 +236,7 @@ module.exports = function AutoPOT(mod) {
 	function useHP(nowHP) {
 		if (config.hp && (mod.game.isIngame && !mod.game.isInLoadingScreen && mod.game.me.alive && !mod.game.me.mounted && !mod.game.contract.active)) {
 			for (let hp = 0; hp < hpPot.length; hp++) {
-				if (!hpPot[hp][1].inCd && hpPot[hp][1].amount > 0 && ((!isSlaying && nowHP <= hpPot[hp][1].use_at && (hpPot[hp][1].inCombat ? mod.game.me.inCombat : true)) || (isSlaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && (hpPot[hp][1].inBattleground ? (mod.game.me.inBattleground || mod.game.me.zone === 152) : !mod.game.me.inBattleground)) {
+				if (!hpPot[hp][1].inCd && hpPot[hp][1].amount > 0 && ((!config.slaying && nowHP <= hpPot[hp][1].use_at && (hpPot[hp][1].inCombat ? mod.game.me.inCombat : true)) || (config.slaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && (hpPot[hp][1].inBattleground ? (mod.game.me.inBattleground || mod.game.me.zone === 152) : !mod.game.me.inBattleground)) {
 					useItem(hpPot[hp]); hpPot[hp][1].inCd = true; hpPot[hp][1].amount--; setTimeout(function () {hpPot[hp][1].inCd = false;}, hpPot[hp][1].cd * 1000);
 					if (config.notice) msg(`Used ${hpPot[hp][1].name}, ${(hpPot[hp][1].amount.toLocaleString())} left.`);
 				}
@@ -162,6 +273,7 @@ module.exports = function AutoPOT(mod) {
 				enabled: true,
 				hp: false,
 				mp: true,
+				slaying: false,
 				notice: false
 			}
 			jsonSave('config.json', data);

@@ -1,10 +1,13 @@
 {
 	"files": {
-		"index.js": "b64efc222346c93cbfa0ff415d76517f0e99a694f452deff23ad3df3da8a5e4a"
+		"index.js": "973da1d2748b008d048eec433564f3fd67943a94260fd6257ca94cdf2ce01496"
 	},
 	"defs": {
+		"C_ADMIN": 1,
+		"C_CONFIRM_UPDATE_NOTIFICATION": "raw",
 		"C_SHOW_INVEN": 1,
 		"C_USE_ITEM": 3,
+		"S_ANNOUNCE_UPDATE_NOTIFICATION": 1,
 		"S_INVEN": 17,
 		"S_PLAYER_STAT_UPDATE": 10,
 		"S_RETURN_TO_LOBBY": "raw"
