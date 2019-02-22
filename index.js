@@ -2,7 +2,7 @@ const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command, map = new WeakMap();
 	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
-	let gPot = null, inUpdate = false, TmpData = [], aRes = {cd: null, delay = 3000};
+	let gPot = null, inUpdate = false, TmpData = [], aRes = {cd: null, delay: 5000};
 	mod.game.initialize(['me', 'contract']);
 
 	if (!map.has(mod.dispatch || mod)) {
@@ -92,46 +92,46 @@ module.exports = function AutoPOT(mod) {
 					text: `<font color="#4DD0E1" size="+24">===== Option =====</font><br>`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">Module: </font><font color="${TFColor(config.enabled)}" size="+20">${TFString(config.enabled)}</font><br>`
+					text: `<font color="#4DD0E1" size="+20">Module: </font>${TFString(config.enabled)}`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">HP: </font><font color="${TFColor(config.hp)}" size="+20">${TFString(config.hp)}</font><br>`
+					text: `<font color="#4DD0E1" size="+20">HP: </font>${TFString(config.hp)}`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">MP: </font><font color="${TFColor(config.mp)}" size="+20">${TFString(config.mp)}</font><br>`
+					text: `<font color="#4DD0E1" size="+20">MP: </font>${TFString(config.mp)}`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">Slaying: </font><font color="${TFColor(config.slaying)}" size="+20">${TFString(config.slaying)}</font><br>`
+					text: `<font color="#4DD0E1" size="+20">Slaying: </font>${TFString(config.slaying)}`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">Notice: </font><font color="${TFColor(config.notice)}" size="+20">${TFString(config.notice)}</font><br>`
+					text: `<font color="#4DD0E1" size="+20">Notice: </font>${TFString(config.notice)}`
 				},
 				{
 					text: `<br><font color="#4DD0E1" size="+24">===== Status =====</font><br>`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">Game: </font><font color="${TFColor(mod.game.isIngame)}" size="+20">${TFString(mod.game.isIngame)}</font><br>`
+					text: `<font color="#4DD0E1" size="+20">Game: </font>${TFString(mod.game.isIngame)}`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">Loading: </font><font color="${TFColor(mod.game.isInLoadingScreen)}" size="+20">${TFString(mod.game.isInLoadingScreen)}</font><br>`
+					text: `<font color="#4DD0E1" size="+20">Loading: </font>${TFString(mod.game.isInLoadingScreen)}`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">Alive: </font><font color="${TFColor(mod.game.me.alive)}" size="+20">${TFString(mod.game.me.alive)}</font><br>`
+					text: `<font color="#4DD0E1" size="+20">Alive: </font>${TFString(mod.game.me.alive)}`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">Mount: </font><font color="${TFColor(mod.game.me.mounted)}" size="+20">${TFString(mod.game.me.mounted)}</font><br>`
+					text: `<font color="#4DD0E1" size="+20">Mount: </font>${TFString(mod.game.me.mounted)}`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">Combat: </font><font color="${TFColor(mod.game.me.inCombat)}" size="+20">${TFString(mod.game.me.inCombat)}</font><br>`
+					text: `<font color="#4DD0E1" size="+20">Combat: </font>${TFString(mod.game.me.inCombat)}`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">Contract: </font><font color="${TFColor(mod.game.contract.active)}" size="+20">${TFString(mod.game.contract.active)}</font><br>`
+					text: `<font color="#4DD0E1" size="+20">Contract: </font>${TFString(mod.game.contract.active)}`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">Battleground: </font><font color="${TFColor(mod.game.me.inBattleground)}" size="+20">${TFString(mod.game.me.inBattleground)}</font><br>`
+					text: `<font color="#4DD0E1" size="+20">Battleground: </font>${TFString(mod.game.me.inBattleground)}`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">CivilUnrest: </font><font color="${TFColor(mod.game.me.zone === 152)}" size="+20">${TFString(mod.game.me.zone === 152)}</font><br>`
+					text: `<font color="#4DD0E1" size="+20">CivilUnrest: </font>${TFString(mod.game.me.zone === 152)}`
 				});
 				TmpData.push({
 					text: `<br><font color="#4DD0E1" size="+24">===== HP Potion =====</font><br>`
@@ -178,25 +178,20 @@ module.exports = function AutoPOT(mod) {
 				},
 				{
 					text: `<font color="#FE6F5E" size="+20">- Config.json</font><br>`,
-					command: `autopot reload config;autopot`
+					command: `autopot reload config`
 				},
 				{
 					text: `<font color="#FE6F5E" size="+20">- HP.json</font><br>`,
-					command: `autopot reload hp;autopot`
+					command: `autopot reload hp`
 				},
 				{
 					text: `<font color="#FE6F5E" size="+20">- MP.json</font><br>`,
-					command: `autopot reload mp;autopot`
+					command: `autopot reload mp`
 				});
 				gui.parse(TmpData, `<font color="#E0B0FF">Auto Potion</font>`);
 				TmpData = [];
 				break;
 		}
-	});
-	
-	mod.game.me.on('resurrect', () => { 
-		if (aRes.cd) clearTimeout(aRes.cd);
-		aRes.cd = setTimeout(() => {aRes.cd = null;}, aRes.delay);
 	});
 	
 	mod.hook('S_INVEN', mod.majorPatchVersion > 79 ? 18 : 17, e => {
@@ -227,6 +222,11 @@ module.exports = function AutoPOT(mod) {
 			hpPot[hp][1].amount = 0;
 		for (let mp = 0; mp < mpPot.length; mp++)
 			mpPot[mp][1].amount = 0;
+	});
+	
+	mod.game.me.on('resurrect', () => { 
+		if (aRes.cd) clearTimeout(aRes.cd);
+		aRes.cd = setTimeout(() => {aRes.cd = null;}, aRes.delay);
 	});
 	
 	function useHP(nowHP) {
@@ -333,7 +333,7 @@ module.exports = function AutoPOT(mod) {
 	
 	function jsonSave(name, data) {fs.writeFile(path.join(__dirname, name), JSON.stringify(data, null, 4), err => {});}
 	
-	function TFColor(e) {return e ? '#4DE19C' : '#FE6F5E';}
+	function TFString(e) {return `<font color="${TFColor(e)}" size="+20">${(e ? 'True' : 'False')}</font><br>`;}
 	
-	function TFString(e) {return e ? 'True' : 'False';}
+	function TFColor(e) {return e ? '#4DE19C' : '#FE6F5E';}
 }
