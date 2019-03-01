@@ -1,7 +1,7 @@
 const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command, map = new WeakMap();
-	let config = getConfig(), hpPot = getHP(), mpPot = getMP();
+	let config = getConfig(), hpPot = getHP(), mpPot = getMP(), aLoc = null, wLoc = 0;
 	let gPot = null, inUpdate = false, TmpData = [], aRes = {cd: null, delay: 5000};
 	mod.game.initialize(['me', 'contract']);
 
@@ -224,6 +224,16 @@ module.exports = function AutoPOT(mod) {
 			mpPot[mp][1].amount = 0;
 	});
 	
+	mod.hook('C_PLAYER_LOCATION', 5, e => {
+		aLoc = e.loc;
+		wLoc = e.w;
+	});
+	
+	mod.hook('S_SPAWN_ME', 3, e => {
+		aLoc = e.loc;
+		wLoc = e.w;
+	});
+	
 	mod.game.me.on('resurrect', () => { 
 		if (aRes.cd) clearTimeout(aRes.cd);
 		aRes.cd = setTimeout(() => {aRes.cd = null;}, aRes.delay);
@@ -255,7 +265,15 @@ module.exports = function AutoPOT(mod) {
 		mod.send('C_USE_ITEM', 3, {
 			gameId: mod.game.me.gameId,
 			id: s2n(itemId[0]),
+			dbid: 0,
+			target: 0,
 			amount: 1,
+			dest: {x: 0, y: 0, z: 0},
+			loc: aLoc,
+			w: wLoc,
+			unk1: 0,
+			unk2: 0,
+			unk3: 0,
 			unk4: true
 		});
 	}

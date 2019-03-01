@@ -1,15 +1,17 @@
 {
 	"files": {
-		"index.js": "0fa2f874c8bc1bf0e2bea88f0d80e9e332585ed207ef4fb0e685bf71e39e9a1c"
+		"index.js": "900c94dc952d22d5154dd3b9e1512dbd4ea1ee716136908b36dfacaf8ddb371c"
 	},
 	"defs": {
 		"C_ADMIN": 1,
 		"C_CONFIRM_UPDATE_NOTIFICATION": "raw",
+		"C_PLAYER_LOCATION": 5,
 		"C_SHOW_INVEN": 1,
 		"C_USE_ITEM": 3,
 		"S_ANNOUNCE_UPDATE_NOTIFICATION": 1,
 		"S_INVEN": [17,18],
 		"S_PLAYER_STAT_UPDATE": 10,
-		"S_RETURN_TO_LOBBY": "raw"
+		"S_RETURN_TO_LOBBY": "raw",
+		"S_SPAWN_ME": 3
 	}
 }
