@@ -192,6 +192,22 @@ module.exports = function AutoPOT(mod) {
 					text: `<font color="#FE6F5E" size="+20">- MP.json</font><br>`,
 					command: `autopot reload mp`
 				});
+				TmpData.push({
+					text: `<br><font color="#4DD0E1" size="+24">===== HP Potion =====</font><br>`
+				});
+				for (let hp = 0; hp < hpPot.length; hp++)
+					if (hpPot[hp][1].amount > 0)
+						TmpData.push({
+							text: `<font color="#4DD0E1" size="+20">[${hp + 1}] ${hpPot[hp][1].name} - ${hpPot[hp][1].amount.toLocaleString()}</font><br>`
+						});
+				TmpData.push({
+					text: `<br><font color="#4DD0E1" size="+24">===== MP Potion =====</font><br>`
+				});
+				for (let mp = 0; mp < mpPot.length; mp++)
+					if (mpPot[mp][1].amount > 0)
+						TmpData.push({
+							text: `<font color="#4DD0E1" size="+20">[${mp + 1}] ${mpPot[mp][1].name} - ${mpPot[mp][1].amount.toLocaleString()}</font><br>`
+						});
 				gui.parse(TmpData, `<font color="#E0B0FF">Auto Potion</font>`);
 				TmpData = [];
 				break;
