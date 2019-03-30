@@ -214,7 +214,7 @@ module.exports = function AutoPOT(mod) {
 		}
 	});
 	
-	mod.hook('S_INVEN', mod.majorPatchVersion > 79 ? 18 : 17, e => {
+	mod.hook('S_INVEN', 18, e => {
 		if (!invUpdate) {
 			invUpdate = true;
 			for(let hp = 0; hp < hpPot.length; hp++) {
@@ -229,7 +229,7 @@ module.exports = function AutoPOT(mod) {
 		}
 	});
 	
-	mod.hook('S_PLAYER_STAT_UPDATE', 10, e => {
+	mod.hook('S_PLAYER_STAT_UPDATE', 12, e => {
 		if (config.enabled) {
 			useHP(Math.round(s2n(e.hp) / s2n(e.maxHp) * 100));
 			useMP(Math.round(s2n(e.mp) / s2n(e.maxMp) * 100));
