@@ -2,7 +2,7 @@ const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command, map = new WeakMap();
 	let config = getConfig(), hpPot = getHP(), mpPot = getMP(), aLoc = null, wLoc = 0;
-	let gPot = null, invUpdate = false, TmpData = [], aRes = null;
+	let gPot = null, inUpdate = false, TmpData = [], aRes = {cd: null, delay: 5000};
 	mod.game.initialize(['me', 'contract']);
 
 	if (!map.has(mod.dispatch || mod)) {
@@ -83,7 +83,6 @@ module.exports = function AutoPOT(mod) {
 				config.mp = !config.mp;
 				msg(`MP pot has ${config.mp ? 'Enable' : 'Disable'}.`);
 				break;
-			case 'info':
 			case 'option':
 			case 'status':
 			case 'debug':
@@ -106,9 +105,6 @@ module.exports = function AutoPOT(mod) {
 				},
 				{
 					text: `<font color="#4DD0E1" size="+20">Notice: </font>${TFString(config.notice)}`
-				},
-				{
-					text: `<font color="#4DD0E1" size="+20">Delay After Resurrect: </font> <font color="#4DE19C" size="+20">${config.delayafterRes}</font>`
 				},
 				{
 					text: `<br><font color="#4DD0E1" size="+24">===== Status =====</font><br>`
@@ -135,7 +131,7 @@ module.exports = function AutoPOT(mod) {
 					text: `<font color="#4DD0E1" size="+20">Battleground: </font>${TFString(mod.game.me.inBattleground)}`
 				},
 				{
-					text: `<font color="#4DD0E1" size="+20">Civil Unrest: </font>${TFString(mod.game.me.zone === 152)}`
+					text: `<font color="#4DD0E1" size="+20">CivilUnrest: </font>${TFString(mod.game.me.zone === 152)}`
 				});
 				TmpData.push({
 					text: `<br><font color="#4DD0E1" size="+24">===== HP Potion =====</font><br>`
@@ -192,31 +188,15 @@ module.exports = function AutoPOT(mod) {
 					text: `<font color="#FE6F5E" size="+20">- MP.json</font><br>`,
 					command: `autopot reload mp`
 				});
-				TmpData.push({
-					text: `<br><font color="#4DD0E1" size="+24">===== HP Potion =====</font><br>`
-				});
-				for (let hp = 0; hp < hpPot.length; hp++)
-					if (hpPot[hp][1].amount > 0)
-						TmpData.push({
-							text: `<font color="#4DD0E1" size="+20">[${hp + 1}] ${hpPot[hp][1].name} - ${hpPot[hp][1].amount.toLocaleString()}</font><br>`
-						});
-				TmpData.push({
-					text: `<br><font color="#4DD0E1" size="+24">===== MP Potion =====</font><br>`
-				});
-				for (let mp = 0; mp < mpPot.length; mp++)
-					if (mpPot[mp][1].amount > 0)
-						TmpData.push({
-							text: `<font color="#4DD0E1" size="+20">[${mp + 1}] ${mpPot[mp][1].name} - ${mpPot[mp][1].amount.toLocaleString()}</font><br>`
-						});
 				gui.parse(TmpData, `<font color="#E0B0FF">Auto Potion</font>`);
 				TmpData = [];
 				break;
 		}
 	});
 	
-	mod.hook('S_INVEN', 18, e => {
-		if (!invUpdate) {
-			invUpdate = true;
+	mod.hook('S_INVEN', mod.majorPatchVersion > 79 ? 18 : 17, e => {
+		if (!inUpdate) {
+			inUpdate = true;
 			for(let hp = 0; hp < hpPot.length; hp++) {
 				gPot = e.items.filter(item => item.id === s2n(hpPot[hp][0]));
 				if (gPot.length > 0) hpPot[hp][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
@@ -225,11 +205,11 @@ module.exports = function AutoPOT(mod) {
 				gPot = e.items.filter(item => item.id === s2n(mpPot[mp][0]));
 				if (gPot.length > 0) mpPot[mp][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
 			}
-			invUpdate = false;
+			inUpdate = false;
 		}
 	});
 	
-	mod.hook('S_PLAYER_STAT_UPDATE', 12, e => {
+	mod.hook('S_PLAYER_STAT_UPDATE', 10, e => {
 		if (config.enabled) {
 			useHP(Math.round(s2n(e.hp) / s2n(e.maxHp) * 100));
 			useMP(Math.round(s2n(e.mp) / s2n(e.maxMp) * 100));
@@ -237,13 +217,11 @@ module.exports = function AutoPOT(mod) {
 	});
 	
 	mod.hook('S_RETURN_TO_LOBBY', 'raw', () => {
+		inUpdate = false;
 		for (let hp = 0; hp < hpPot.length; hp++)
 			hpPot[hp][1].amount = 0;
 		for (let mp = 0; mp < mpPot.length; mp++)
 			mpPot[mp][1].amount = 0;
-		if (aRes) clearTimeout(aRes);
-		invUpdate = false;
-		aRes = null;
 	});
 	
 	mod.hook('C_PLAYER_LOCATION', 5, e => {
@@ -257,12 +235,12 @@ module.exports = function AutoPOT(mod) {
 	});
 	
 	mod.game.me.on('resurrect', () => { 
-		if (aRes) clearTimeout(aRes);
-		aRes = setTimeout(() => {aRes = null;}, config.delayafterRes);
+		if (aRes.cd) clearTimeout(aRes.cd);
+		aRes.cd = setTimeout(() => {aRes.cd = null;}, aRes.delay);
 	});
 	
 	function useHP(nowHP) {
-		if (config.hp && (mod.game.isIngame && !mod.game.isInLoadingScreen && !aRes && mod.game.me.alive && !mod.game.me.mounted && !mod.game.contract.active)) {
+		if (config.hp && (mod.game.isIngame && !mod.game.isInLoadingScreen && !aRes.cd && mod.game.me.alive && !mod.game.me.mounted && !mod.game.contract.active)) {
 			for (let hp = 0; hp < hpPot.length; hp++) {
 				if (!hpPot[hp][1].inCd && hpPot[hp][1].amount > 0 && ((!config.slaying && nowHP <= hpPot[hp][1].use_at && (hpPot[hp][1].inCombat ? mod.game.me.inCombat : true)) || (config.slaying && nowHP <= hpPot[hp][1].slay_at && mod.game.me.inCombat)) && (hpPot[hp][1].inBattleground ? (mod.game.me.inBattleground || mod.game.me.zone === 152) : !mod.game.me.inBattleground)) {
 					useItem(hpPot[hp]); hpPot[hp][1].inCd = true; hpPot[hp][1].amount--; setTimeout(function () {hpPot[hp][1].inCd = false;}, hpPot[hp][1].cd * 1000);
@@ -273,7 +251,7 @@ module.exports = function AutoPOT(mod) {
 	}
 	
 	function useMP(nowMP) {
-		if (config.mp && (mod.game.isIngame && !mod.game.isInLoadingScreen && !aRes && mod.game.me.alive && !mod.game.me.mounted && !mod.game.contract.active)) {
+		if (config.mp && (mod.game.isIngame && !mod.game.isInLoadingScreen && !aRes.cd && mod.game.me.alive && !mod.game.me.mounted && !mod.game.contract.active)) {
 			for (let mp = 0; mp < mpPot.length; mp++) {
 				if (!mpPot[mp][1].inCd && mpPot[mp][1].amount > 0 && nowMP <= mpPot[mp][1].use_at && (mpPot[mp][1].inCombat ? mod.game.me.inCombat : true) && (mpPot[mp][1].inBattleground ? (mod.game.me.inBattleground || mod.game.me.zone === 152) : !mod.game.me.inBattleground)) {
 					useItem(mpPot[mp]); mpPot[mp][1].inCd = true; mpPot[mp][1].amount--; setTimeout(function () {mpPot[mp][1].inCd = false;}, mpPot[mp][1].cd * 1000);
@@ -304,27 +282,13 @@ module.exports = function AutoPOT(mod) {
 		let data = {};
 		try {
 			data = jsonRequire('./config.json');
-			//--- Update Config !!START!! ---//
-			if (!data.delayafterRes || !data.slaying) {
-				data = {
-					enabled: data.enabled || true,
-					hp: data.hp || false,
-					mp: data.mp || true,
-					slaying: data.slaying || false,
-					notice: data.notice || false,
-					delayafterRes: data.delayafterRes ||2000
-				}
-				jsonSave('config.json', data);
-			}
-			//--- Update Config !!END!! ---//
 		} catch (e) {
 			data = {
 				enabled: true,
 				hp: false,
 				mp: true,
 				slaying: false,
-				notice: false,
-				delayafterRes: 2000
+				notice: false
 			}
 			jsonSave('config.json', data);
 		}
