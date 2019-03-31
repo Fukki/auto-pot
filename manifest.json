@@ -1,6 +1,6 @@
 {
 	"files": {
-		"index.js": "900c94dc952d22d5154dd3b9e1512dbd4ea1ee716136908b36dfacaf8ddb371c"
+		"index.js": "3fa58e1a0f2fdb9edb4802792178977b9cf19dd283a54d2213ebaa08c6084d5c"
 	},
 	"defs": {
 		"C_ADMIN": 1,
@@ -9,8 +9,9 @@
 		"C_SHOW_INVEN": 1,
 		"C_USE_ITEM": 3,
 		"S_ANNOUNCE_UPDATE_NOTIFICATION": 1,
-		"S_INVEN": [17,18],
-		"S_PLAYER_STAT_UPDATE": 10,
+		"S_CREATURE_CHANGE_HP": 6,
+		"S_INVEN": 18,
+		"S_PLAYER_CHANGE_MP": 1,
 		"S_RETURN_TO_LOBBY": "raw",
 		"S_SPAWN_ME": 3
 	}
