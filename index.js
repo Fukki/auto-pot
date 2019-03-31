@@ -214,7 +214,7 @@ module.exports = function AutoPOT(mod) {
 		}
 	});
 	
-	mod.hook('S_INVEN', 18, e => {
+	mod.hook('S_INVEN', mod.majorPatchVersion > 79 ? 18 : 17, e => {
 		if (!invUpdate) {
 			invUpdate = true;
 			for(let hp = 0; hp < hpPot.length; hp++) {
