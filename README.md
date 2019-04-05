@@ -9,7 +9,7 @@ This is same let-me-pot</br>
 start with "autopot" or "pot"
 ```
 - pot                           //Just open GUI if you lazy full command :/
-- pot id [item link]            //Get an item id <Shift + Left Click>
+- pot id [item link]            //Get an item id <hold Shift + Left Click> for item link
 - pot hp                        //Enable and Disable auto use hp pot
 - pot mp                        //Enable and Disable auto use mp pot *default is always enable
 - pot slaying                   //Enable and Disable auto use hp pot with slaying mode
