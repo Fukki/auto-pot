@@ -1,11 +1,11 @@
-// Autopot
+# Autopot
 This is same let-me-pot</br>
 - Support slaying mode.
 - Support for who no need use potion only in combat.</br>
 - Support Civil Unrest and Battleground potion.</br>
 - Reload file with command no need relog or restart.</br>
 - Require Caali's Proxy "tera-game-state"</br>
-// Commands
+# Commands
 start with "autopot" or "pot"
 ```
 - pot                           //Just open GUI if you lazy full command :/
@@ -23,7 +23,7 @@ start with "autopot" or "pot"
 ***for battleground potion you need set it by your self***</br>
 ***config.json, hp.json, mp.json will generate after enter the game***</br>
 
-// Config.json
+# Config.json
 ```
 {
     "enabled": true,    //enable and disable this module
@@ -33,7 +33,7 @@ start with "autopot" or "pot"
     "notice": false     //if set true = notice your pot left, false = not notice
 }
 ```
-// HP.json
+# HP.json
 ```
 {
     "6552": {                               //Your pot ID (ItemId)
@@ -46,7 +46,7 @@ start with "autopot" or "pot"
     }
 }
 ```
-// MP.json
+# MP.json
 ```
 {
     "6562": {                                   //Your pot ID (ItemId)
@@ -58,7 +58,7 @@ start with "autopot" or "pot"
     }
 }
 ```
-// Helpful 
+# Helpful 
 [Something Helpful for new users](https://github.com/Fukki/auto-pot/issues/6)
 
 // Q & A
