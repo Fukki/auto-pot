@@ -61,7 +61,7 @@ start with "autopot" or "pot"
 # Helpful 
 [Something Helpful for new users](https://github.com/Fukki/auto-pot/issues/6)
 
-// Q & A
+# Q & A
 Q: my *.json got replace after edit.</br>
 A: check your syntax before save because *.json will replace if system cant read.</br>
 
