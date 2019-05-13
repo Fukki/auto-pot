@@ -1,8 +1,7 @@
 const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command, map = new WeakMap();
-	let config = getConfig(), hpPot = getHP(), mpPot = getMP(), aLoc = null, wLoc = 0;
-	let invUpdate = false, TmpData = [], aRes = null;
+	let config = getConfig(), hpPot = getHP(), mpPot = getMP(), TmpData = [], aRes = null, aLoc = null, wLoc = 0;
 	mod.game.initialize(['me', 'contract', 'inventory']);
 
 	if (!map.has(mod.dispatch || mod)) {
@@ -235,14 +234,10 @@ module.exports = function AutoPOT(mod) {
 	});
 	
 	mod.hook('S_INVEN', 'raw', () => {
-		if (!invUpdate) {
-			invUpdate = true;
-			for(let hp = 0; hp < hpPot.length; hp++)
-				hpPot[hp][1].amount = mod.game.inventory.getTotalAmount(s2n(hpPot[hp][0]));
-			for(let mp = 0; mp < mpPot.length; mp++)
-				mpPot[mp][1].amount = mod.game.inventory.getTotalAmount(s2n(mpPot[mp][0]));
-			invUpdate = false;
-		}
+		for(let hp = 0; hp < hpPot.length; hp++)
+			hpPot[hp][1].amount = mod.game.inventory.getTotalAmount(s2n(hpPot[hp][0]));
+		for(let mp = 0; mp < mpPot.length; mp++)
+			mpPot[mp][1].amount = mod.game.inventory.getTotalAmount(s2n(mpPot[mp][0]));
 	});
 	
 	mod.hook('S_RETURN_TO_LOBBY', 'raw', () => {
