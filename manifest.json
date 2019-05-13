@@ -1,6 +1,6 @@
 {
 	"files": {
-		"index.js": "305a299c4f8988708d432dd1681d8b1f39b7f04921919458fae7db92e1b671cf"
+		"index.js": "87ead5037b3d5f272ab1147c66c3e8f0cc7376f26a93ca6455f4273038cac0d2"
 	},
 	"defs": {
 		"C_ADMIN": 1,
@@ -9,10 +9,14 @@
 		"C_SHOW_INVEN": 1,
 		"C_USE_ITEM": 3,
 		"S_ANNOUNCE_UPDATE_NOTIFICATION": 1,
+		"S_CHAT": 2,
 		"S_CREATURE_CHANGE_HP": 6,
-		"S_INVEN": [17,18],
+		"S_DESPAWN_NPC": 3,
+		"S_INVEN": "raw",
+		"S_LOGIN": 12,
 		"S_PLAYER_CHANGE_MP": 1,
 		"S_RETURN_TO_LOBBY": "raw",
-		"S_SPAWN_ME": 3
+		"S_SPAWN_ME": 3,
+		"S_SPAWN_NPC": 11
 	}
 }
