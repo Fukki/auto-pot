@@ -9,14 +9,10 @@
 		"C_SHOW_INVEN": 1,
 		"C_USE_ITEM": 3,
 		"S_ANNOUNCE_UPDATE_NOTIFICATION": 1,
-		"S_CHAT": 2,
 		"S_CREATURE_CHANGE_HP": 6,
-		"S_DESPAWN_NPC": 3,
 		"S_INVEN": "raw",
-		"S_LOGIN": 12,
 		"S_PLAYER_CHANGE_MP": 1,
 		"S_RETURN_TO_LOBBY": "raw",
-		"S_SPAWN_ME": 3,
-		"S_SPAWN_NPC": 11
+		"S_SPAWN_ME": 3
 	}
 }
