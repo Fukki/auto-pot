@@ -246,7 +246,6 @@ module.exports = function AutoPOT(mod) {
 		for (let mp = 0; mp < mpPot.length; mp++)
 			mpPot[mp][1].amount = 0;
 		if (aRes) clearTimeout(aRes);
-		invUpdate = false;
 		aRes = null;
 	});
 	
