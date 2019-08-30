@@ -52,12 +52,10 @@ module.exports = function AutoPOT(mod) {
 				switch (arg2) {
 					case 'hp':
 						hpPot = getHP();
-						mod.toServer('C_SHOW_INVEN', 1, {unk: 1});
 						msg(`HP.json has been reloaded.`);
 						break;
 					case 'mp':
 						mpPot = getMP();
-						mod.toServer('C_SHOW_INVEN', 1, {unk: 1});
 						msg(`MP.json has been reloaded.`);
 						break;
 					case 'config':
@@ -233,7 +231,7 @@ module.exports = function AutoPOT(mod) {
 			useMP(Math.round(s2n(e.currentMp) / s2n(e.maxMp) * 100));
 	});
 	
-	mod.hook('S_INVEN', 'raw', () => {
+	mod.hook('S_INVEN', 19, () => {
 		for(let hp = 0; hp < hpPot.length; hp++)
 			hpPot[hp][1].amount = mod.game.inventory.getTotalAmount(s2n(hpPot[hp][0]));
 		for(let mp = 0; mp < mpPot.length; mp++)
