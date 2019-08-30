@@ -2,7 +2,7 @@ const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command, map = new WeakMap();
 	let config = getConfig(), hpPot = getHP(), mpPot = getMP(), TmpData = [], aRes = null, aLoc = null, wLoc = 0, invUpdate = false, gPot = null;
-	mod.game.initialize(['me', 'contract', 'inventory']);
+	mod.game.initialize(['me', 'contract']);
 
 	if (!map.has(mod.dispatch || mod)) {
 		map.set(mod.dispatch || mod, {});
