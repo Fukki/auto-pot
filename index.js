@@ -1,7 +1,7 @@
 const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command, map = new WeakMap();
-	let config = getConfig(), hpPot = getHP(), mpPot = getMP(), TmpData = [], aRes = null, aLoc = null, wLoc = 0;
+	let config = getConfig(), hpPot = getHP(), mpPot = getMP(), TmpData = [], aRes = null, aLoc = null, wLoc = 0, invUpdate = false, gPot = null;
 	mod.game.initialize(['me', 'contract', 'inventory']);
 
 	if (!map.has(mod.dispatch || mod)) {
@@ -231,11 +231,19 @@ module.exports = function AutoPOT(mod) {
 			useMP(Math.round(s2n(e.currentMp) / s2n(e.maxMp) * 100));
 	});
 	
-	mod.hook('S_INVEN', 19, () => {
-		for(let hp = 0; hp < hpPot.length; hp++)
-			hpPot[hp][1].amount = mod.game.inventory.getTotalAmount(s2n(hpPot[hp][0]));
-		for(let mp = 0; mp < mpPot.length; mp++)
-			mpPot[mp][1].amount = mod.game.inventory.getTotalAmount(s2n(mpPot[mp][0]));
+	mod.hook('S_INVEN', 19, e => {
+		if (!invUpdate) {
+			invUpdate = true;
+			for(let hp = 0; hp < hpPot.length; hp++) {
+				gPot = e.items.filter(item => item.id === s2n(hpPot[hp][0]));
+				if (gPot.length > 0) hpPot[hp][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
+			}
+			for(let mp = 0; mp < mpPot.length; mp++) {
+				gPot = e.items.filter(item => item.id === s2n(mpPot[mp][0]));
+				if (gPot.length > 0) mpPot[mp][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
+			}
+			invUpdate = false;
+		}
 	});
 	
 	mod.hook('S_RETURN_TO_LOBBY', 'raw', () => {
@@ -244,7 +252,7 @@ module.exports = function AutoPOT(mod) {
 		for (let mp = 0; mp < mpPot.length; mp++)
 			mpPot[mp][1].amount = 0;
 		if (aRes) clearTimeout(aRes);
-		aRes = null;
+		aRes = null; invUpdate = false;
 	});
 	
 	mod.game.me.on('resurrect', () => { 
