@@ -13,8 +13,8 @@ start with "autopot" or "pot"
 - pot hp                        //Enable and Disable auto use hp pot
 - pot mp                        //Enable and Disable auto use mp pot *default is always enable
 - pot slaying                   //Enable and Disable auto use hp pot with slaying mode
-- pot reload hp                 //Reload HP.json file
-- pot reload mp                 //Reload MP.json file
+- pot reload hp                 //Reload HP.json file *open your inventory for update item amont
+- pot reload mp                 //Reload MP.json file *open your inventory for update item amont
 - pot reload config             //Reload Config.json file
 - pot debug                     //Show DEBUG
 ```
