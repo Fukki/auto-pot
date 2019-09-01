@@ -231,7 +231,7 @@ module.exports = function AutoPOT(mod) {
 			useMP(Math.round(s2n(e.currentMp) / s2n(e.maxMp) * 100));
 	});
 	
-	if (mod.majorPatchVersion => 85) {
+	if (mod.majorPatchVersion >= 85) {
 		mod.hook('S_ITEMLIST', 'raw', () => {
 			if (!invUpdate && e.gameId === mod.game.me.gameId) {
 				invUpdate = true;
