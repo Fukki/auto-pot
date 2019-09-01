@@ -231,20 +231,37 @@ module.exports = function AutoPOT(mod) {
 			useMP(Math.round(s2n(e.currentMp) / s2n(e.maxMp) * 100));
 	});
 	
-	mod.hook('S_INVEN', 19, e => {
-		if (!invUpdate) {
-			invUpdate = true;
-			for(let hp = 0; hp < hpPot.length; hp++) {
-				gPot = e.items.filter(item => item.id === s2n(hpPot[hp][0]));
-				if (gPot.length > 0) hpPot[hp][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
+	if (mod.majorPatchVersion => 85) {
+		mod.hook('S_ITEMLIST', 1, e => {
+			if (!invUpdate && e.gameId === mod.game.me.gameId) {
+				invUpdate = true;
+				for(let hp = 0; hp < hpPot.length; hp++) {
+					gPot = e.items.filter(item => item.id === s2n(hpPot[hp][0]));
+					if (gPot.length > 0) hpPot[hp][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
+				}
+				for(let mp = 0; mp < mpPot.length; mp++) {
+					gPot = e.items.filter(item => item.id === s2n(mpPot[mp][0]));
+					if (gPot.length > 0) mpPot[mp][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
+				}
+				invUpdate = false;
 			}
-			for(let mp = 0; mp < mpPot.length; mp++) {
-				gPot = e.items.filter(item => item.id === s2n(mpPot[mp][0]));
-				if (gPot.length > 0) mpPot[mp][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
+		});
+	} else {
+		mod.hook('S_INVEN', 19, e => {
+			if (!invUpdate && e.gameId === mod.game.me.gameId) {
+				invUpdate = true;
+				for(let hp = 0; hp < hpPot.length; hp++) {
+					gPot = e.items.filter(item => item.id === s2n(hpPot[hp][0]));
+					if (gPot.length > 0) hpPot[hp][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
+				}
+				for(let mp = 0; mp < mpPot.length; mp++) {
+					gPot = e.items.filter(item => item.id === s2n(mpPot[mp][0]));
+					if (gPot.length > 0) mpPot[mp][1].amount = gPot.reduce(function (a, b) {return a + b.amount;}, 0);
+				}
+				invUpdate = false;
 			}
-			invUpdate = false;
-		}
-	});
+		});
+	}
 	
 	mod.hook('S_RETURN_TO_LOBBY', 'raw', () => {
 		for (let hp = 0; hp < hpPot.length; hp++)
