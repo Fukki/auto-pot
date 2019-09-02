@@ -232,7 +232,7 @@ module.exports = function AutoPOT(mod) {
 	});
 	
 	if (mod.majorPatchVersion >= 85) {
-		mod.hook('S_ITEMLIST', 'raw', () => {
+		mod.hook('S_ITEMLIST', 1, e => {
 			if (!invUpdate && e.gameId === mod.game.me.gameId) {
 				invUpdate = true;
 				for(let hp = 0; hp < hpPot.length; hp++)
@@ -243,7 +243,7 @@ module.exports = function AutoPOT(mod) {
 			}
 		});
 	} else {
-		mod.hook('S_INVEN', 'raw', () => {
+		mod.hook('S_INVEN', 19, e => {
 			if (!invUpdate && e.gameId === mod.game.me.gameId) {
 				invUpdate = true;
 				for(let hp = 0; hp < hpPot.length; hp++)
