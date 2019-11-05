@@ -231,29 +231,17 @@ module.exports = function AutoPOT(mod) {
 			useMP(Math.round(s2n(e.currentMp) / s2n(e.maxMp) * 100));
 	});
 	
-	if (mod.majorPatchVersion >= 85) {
-		mod.hook('S_ITEMLIST', 1, e => {
-			if (!invUpdate && e.gameId === mod.game.me.gameId) {
-				invUpdate = true;
-				for(let hp = 0; hp < hpPot.length; hp++)
-					hpPot[hp][1].amount = mod.game.inventory.getTotalAmount(s2n(hpPot[hp][0]));
-				for(let mp = 0; mp < mpPot.length; mp++)
-					mpPot[mp][1].amount = mod.game.inventory.getTotalAmount(s2n(mpPot[mp][0]));
-				invUpdate = false;
-			}
-		});
-	} else {
-		mod.hook('S_INVEN', 19, e => {
-			if (!invUpdate && e.gameId === mod.game.me.gameId) {
-				invUpdate = true;
-				for(let hp = 0; hp < hpPot.length; hp++)
-					hpPot[hp][1].amount = mod.game.inventory.getTotalAmount(s2n(hpPot[hp][0]));
-				for(let mp = 0; mp < mpPot.length; mp++)
-					mpPot[mp][1].amount = mod.game.inventory.getTotalAmount(s2n(mpPot[mp][0]));
-				invUpdate = false;
-			}
-		});
-	}
+	
+	mod.hook('S_ITEMLIST', mod.majorPatchVersion >= 86 ? 2 : 1, e => {
+		if (!invUpdate && e.gameId === mod.game.me.gameId) {
+			invUpdate = true;
+			for(let hp = 0; hp < hpPot.length; hp++)
+				hpPot[hp][1].amount = mod.game.inventory.getTotalAmount(s2n(hpPot[hp][0]));
+			for(let mp = 0; mp < mpPot.length; mp++)
+				mpPot[mp][1].amount = mod.game.inventory.getTotalAmount(s2n(mpPot[mp][0]));
+			invUpdate = false;
+		}
+	});
 	
 	mod.hook('S_RETURN_TO_LOBBY', 'raw', () => {
 		for (let hp = 0; hp < hpPot.length; hp++)
