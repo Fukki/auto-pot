@@ -1,7 +1,7 @@
 const path = require('path'); const fs = require('fs');
 module.exports = function AutoPOT(mod) {
 	const cmd = mod.command || mod.require.command, map = new WeakMap();
-	let config = getConfig(), hpPot = getHP(), mpPot = getMP(), TmpData = [], aRes = null, aLoc = null, wLoc = 0, invUpdate = false, gPot = null;
+	let config = getConfig(), hpPot = getHP(), mpPot = getMP(), TmpData = [], aRes = null, aLoc = null, wLoc = 0, invUpdate = false, gPot = null, packet_version = 0;
 	mod.game.initialize(['me', 'contract', 'inventory']);
 
 	if (!map.has(mod.dispatch || mod)) {
@@ -231,8 +231,19 @@ module.exports = function AutoPOT(mod) {
 			useMP(Math.round(s2n(e.currentMp) / s2n(e.maxMp) * 100));
 	});
 	
+	switch(mod.majorPatchVersion) {
+		case 85:
+			packet_version = 1;
+			break;
+		case 86:
+			packet_version = 2;
+			break;
+		case 87:
+			packet_version = 3;
+			break;
+	}
 	
-	mod.hook('S_ITEMLIST', mod.majorPatchVersion >= 86 ? 2 : 1, e => {
+	mod.hook('S_ITEMLIST', packet_version, e => {
 		if (!invUpdate && e.gameId === mod.game.me.gameId) {
 			invUpdate = true;
 			for(let hp = 0; hp < hpPot.length; hp++)
