@@ -238,7 +238,7 @@ module.exports = function AutoPOT(mod) {
 		case 86:
 			packet_version = 2;
 			break;
-		case 87:
+		default:
 			packet_version = 3;
 			break;
 	}
