@@ -338,7 +338,7 @@ module.exports = function AutoPOT(mod) {
 		try {
 			data = jsonRequire('./hp.json');
 		} catch (e) {
-			data ={
+			data = {
 				"6552": {
 					"name": "Prime Recovery Potable",
 					"inBattleground": false,
