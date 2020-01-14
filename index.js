@@ -221,7 +221,15 @@ module.exports = function AutoPOT(mod) {
 		wLoc = e.w;
 	});
 	
-	mod.hook('S_CREATURE_CHANGE_HP', 6, e => {
+	//Because S_PLAYER_STAT_UPDATE faster than CREATURE
+	mod.hook('S_PLAYER_STAT_UPDATE', 13, e => {
+		if (config.enabled) {
+			useHP(Math.round(s2n(e.hp) / s2n(e.maxHp) * 100));
+			useMP(Math.round(s2n(e.mp) / s2n(e.maxMp) * 100));
+		}
+	});
+	
+	/*mod.hook('S_CREATURE_CHANGE_HP', 6, e => {
 		if (config.enabled && e.target === mod.game.me.gameId)
 			useHP(Math.round(s2n(e.curHp) / s2n(e.maxHp) * 100));
 	});
@@ -229,7 +237,7 @@ module.exports = function AutoPOT(mod) {
 	mod.hook('S_PLAYER_CHANGE_MP', 1, e => {
 		if (config.enabled && e.target === mod.game.me.gameId)
 			useMP(Math.round(s2n(e.currentMp) / s2n(e.maxMp) * 100));
-	});
+	});*/
 	
 	switch(mod.majorPatchVersion) {
 		case 85:
@@ -330,13 +338,23 @@ module.exports = function AutoPOT(mod) {
 		try {
 			data = jsonRequire('./hp.json');
 		} catch (e) {
-			data[6552] = {
-				name: 'Prime Recovery Potable',
-				inBattleground: false,
-				inCombat: true,
-				use_at: 80,
-				slay_at: 30,
-				cd: 10
+			data ={
+				"6552": {
+					"name": "Prime Recovery Potable",
+					"inBattleground": false,
+					"inCombat": true,
+					"use_at": 80,
+					"slay_at": 30,
+					"cd": 10
+				},
+				"9310": {
+					"name": "Veteran HP Potion",
+					"inBattleground": true,
+					"inCombat": true,
+					"use_at": 50,
+					"slay_at": 30,
+					"cd": 30
+				}
 			}
 			jsonSave('hp.json', data);
 		}
@@ -348,12 +366,20 @@ module.exports = function AutoPOT(mod) {
 		try {
 			data = jsonRequire('./mp.json');
 		} catch (e) {
-			data[6562] = {
-				name: 'Prime Replenishment Potable',
-				inBattleground: false,
-				inCombat: false,
-				use_at: 50,
-				cd: 10
+			data = {
+				"6562": {
+					"name": "Prime Replenishment Potable",
+					"inCombat": false,
+					"use_at": 50,
+					"cd": 10
+				},
+				"9311": {
+					"name": "Verteran MP Potion",
+					"inBattleground": true,
+					"inCombat": true,
+					"use_at": 30,
+					"cd": 30
+				}
 			}
 			jsonSave('mp.json', data);
 		}
