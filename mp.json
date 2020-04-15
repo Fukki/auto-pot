@@ -1,0 +1,37 @@
+{
+	"6560": {
+		"name": "Minor Replenishment Potable",
+		"inBattleground": false,
+		"inCombat": false,
+		"use_at": 80,
+		"cd": 10
+	},
+	"6561": {
+		"name": "Major Replenishment Potable",
+		"inBattleground": false,
+		"inCombat": false,
+		"use_at": 80,
+		"cd": 10
+	},
+	"6562": {
+		"name": "Prime Replenishment Potable",
+		"inBattleground": false,
+		"inCombat": false,
+		"use_at": 80,
+		"cd": 10
+	},
+	"6563": {
+		"name": "Superior Replenishment Potable",
+		"inBattleground": false,
+		"inCombat": false,
+		"use_at": 80,
+		"cd": 10
+	},
+	"130": {
+		"name": "Divine Infusion",
+		"inBattleground": false,
+		"inCombat": false,
+		"use_at": 80,
+		"cd": 30
+	}
+}
