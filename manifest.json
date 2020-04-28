@@ -1,6 +1,6 @@
 {
 	"files": {
-		"index.js": "2126e214e9fd63d1621f1cea51437ff91c7b9ee2c2125290cb2811596e4048ab"
+		"index.js": "fb68347872d82a4c2a95be84f070832e3ff8a6c2b42aafccd1538d875c84d879"
 	},
 	"defs": {
 		"C_ADMIN": 1,
@@ -8,8 +8,8 @@
 		"C_PLAYER_LOCATION": 5,
 		"C_USE_ITEM": 3,
 		"S_ANNOUNCE_UPDATE_NOTIFICATION": 1,
-		"S_ITEMLIST": 13,
-		"S_PLAYER_STAT_UPDATE": 13,
+		"S_ITEMLIST": 14,
+		"S_PLAYER_STAT_UPDATE": [13,14],
 		"S_RETURN_TO_LOBBY": "raw",
 		"S_SPAWN_ME": 3
 	}
