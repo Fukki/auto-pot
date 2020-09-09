@@ -222,7 +222,7 @@ module.exports = function AutoPOT(mod) {
 	});
 	
 	//Because S_PLAYER_STAT_UPDATE faster than CREATURE
-	mod.hook('S_PLAYER_STAT_UPDATE', mod.majorPatchVersion >= 93 ? 14 : 13, e => {
+	mod.hook('S_PLAYER_STAT_UPDATE', 14, e => {
 		if (config.enabled) {
 			useHP(Math.round(s2n(e.hp) / s2n(e.maxHp) * 100));
 			useMP(Math.round(s2n(e.mp) / s2n(e.maxMp) * 100));
@@ -239,19 +239,7 @@ module.exports = function AutoPOT(mod) {
 			useMP(Math.round(s2n(e.currentMp) / s2n(e.maxMp) * 100));
 	});*/
 	
-	switch(mod.majorPatchVersion) {
-		case 85:
-			packet_version = 1;
-			break;
-		case 86:
-			packet_version = 2;
-			break;
-		default:
-			packet_version = 3;
-			break;
-	}
-	
-	mod.hook('S_ITEMLIST', packet_version, e => {
+	mod.hook('S_ITEMLIST', 4, e => {
 		if (!invUpdate && e.gameId === mod.game.me.gameId) {
 			invUpdate = true;
 			for(let hp = 0; hp < hpPot.length; hp++)
