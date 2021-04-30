@@ -1,6 +1,6 @@
 {
 	"files": {
-		"index.js": "a6b8bed8e87e04f26b1686956e098299c059e6c45421f26a4cd9a4a0c038de33"
+		"index.js": "10feec3af1466836caeaef9d6b047966d2ffb3946e42570e04bc7eba948f23dd"
 	},
 	"defs": {
 		"C_ADMIN": 1,
@@ -9,7 +9,7 @@
 		"C_USE_ITEM": 3,
 		"S_ANNOUNCE_UPDATE_NOTIFICATION": 1,
 		"S_ITEMLIST": 4,
-		"S_PLAYER_STAT_UPDATE": 14,
+		"S_PLAYER_STAT_UPDATE": 15,
 		"S_RETURN_TO_LOBBY": "raw",
 		"S_SPAWN_ME": 3
 	}
