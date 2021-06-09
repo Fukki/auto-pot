@@ -222,7 +222,7 @@ module.exports = function AutoPOT(mod) {
 	});
 	
 	//Because S_PLAYER_STAT_UPDATE faster than CREATURE
-	mod.hook('S_PLAYER_STAT_UPDATE', 15, e => {
+	mod.hook('S_PLAYER_STAT_UPDATE', 16, e => {
 		if (config.enabled) {
 			useHP(Math.round(s2n(e.hp) / s2n(e.maxHp) * 100));
 			useMP(Math.round(s2n(e.mp) / s2n(e.maxMp) * 100));
